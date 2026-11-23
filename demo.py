@@ -27,7 +27,7 @@ def demostrar(caso, jar=None):
     print(f"Driver {driver['id']}: {driver['texto']}")
     print(f"Decisión {decision['id']}: {decision['tactica']}")
     print(f"Elemento {elemento['id']}: {elemento['nombre']}\n")
-    print("Ejecución original: R1–R5 superadas.")
+    print("Ejecución original: R1–R8 superadas.")
     print(f"Prueba controlada: quitar en memoria el enlace de {elemento['id']} con sus decisiones.")
     elemento["implementa"] = []
     errores, despues, _ = auditar(copia,vistas,comando)
@@ -36,7 +36,7 @@ def demostrar(caso, jar=None):
     for titulo,clave in [("Vistas compiladas","validez_sintactica"),("Elementos huérfanos","elementos_huerfanos")]:
         a,b = antes[clave],despues[clave]
         print(f"{titulo}: antes {a[0]}/{a[1]}, después {b[0]}/{b[1]}.")
-    return any(e.startswith("R3 ") for e in errores)
+    return any(e.startswith("R4 ") for e in errores)
 
 if __name__ == "__main__":
     p=argparse.ArgumentParser(description=__doc__)

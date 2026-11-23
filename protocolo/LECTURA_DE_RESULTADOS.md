@@ -1,12 +1,12 @@
 # Cómo interpretar los casos al presentar el artículo
 
-En la ejecución registrada, ocho de ocho casos superaron R1–R5. Se compilaron 16 de 16 vistas, 11 de 11 drivers priorizados tuvieron una decisión y 0 de 32 elementos visibles quedaron huérfanos. Hubo 40 llamadas generativas y cero reintentos en el lote. El tiempo medio por caso fue de 526,8 segundos en el equipo compartido.
+En la ejecución registrada, ocho de ocho casos superaron la auditoría de la versión original del avance. Se compilaron 16 de 16 vistas, 11 de 11 drivers priorizados tuvieron una decisión y 0 de 32 elementos visibles quedaron huérfanos. Hubo 40 llamadas generativas y cero reintentos en el lote. El tiempo medio por caso fue de 526,8 segundos en el equipo compartido.
 
-De las 54 partes previstas para los nueve escenarios, 41 contenían información según la rúbrica estructural. Esto representa el 75,9 % al agrupar campos, o el 72,9 % si se da el mismo peso a cada caso. En sensores, los seis campos del escenario quedaron como «Sin especificar». En taller se documentaron dos de seis. Estos valores corresponden a RQ1. La precisión y el recall de RQ2 requieren la referencia por consenso.
+De las 54 partes previstas para los nueve escenarios, 41 contenían información según la rúbrica estructural. Esto representa el 75,9 % al agrupar campos, o el 72,9 % si se da el mismo peso a cada caso. En sensores, los seis campos del escenario quedaron como «Sin especificar». En taller se documentaron dos de seis. La completitud describe la documentación de los escenarios. La precisión, el recall y F1 de RQ1 requieren la referencia por consenso.
 
 ## Una demostración reproducible
 
-En el caso de reservas, `DEC-02` propone control de versiones para detectar conflictos de actualización. El registro enlaza esa decisión con `DRV-01`, que exige confirmar una sola reserva cuando dos alumnos compiten por la última sala, y con `ELM-04`, el detector de conflictos. En la demostración, quitar la asociación de ese elemento con su decisión deja un elemento huérfano entre cuatro. Las dos vistas siguen compilando. El experimento permite aislar el efecto de R3 respecto de R5.
+En el caso de reservas, `DEC-02` propone control de versiones para detectar conflictos de actualización. El registro enlaza esa decisión con `DRV-01`, que exige confirmar una sola reserva cuando dos alumnos compiten por la última sala, y con `ELM-04`, el detector de conflictos. En la demostración, quitar la asociación de ese elemento con su decisión deja un elemento huérfano entre cuatro. Las dos vistas siguen compilando. El experimento permite aislar la justificación del elemento (R4) y la compilación de las vistas (R8).
 
 ## Dos observaciones para discutir
 

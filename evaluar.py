@@ -9,8 +9,8 @@ from urllib.parse import quote
 from marco.modelo import leer, guardar, huella
 from revision import puntuar
 
-METRICAS = ("validez_sintactica","cobertura_drivers","elementos_huerfanos","completitud_escenarios","precision","recall")
-ETIQUETAS = ("Vistas compiladas","Drivers cubiertos","Elementos huérfanos","Partes de escenario presentes","Precisión","Recall")
+METRICAS = ("validez_sintactica","cobertura_drivers","elementos_huerfanos","completitud_escenarios","precision","recall","f1")
+ETIQUETAS = ("Vistas compiladas","Drivers cubiertos","Elementos huérfanos","Partes de escenario presentes","Precisión","Recall","F1")
 
 def resumir(raiz, salida, revisiones=None):
     rutas = sorted(raiz.glob("*/ejecucion.json"))
@@ -26,15 +26,15 @@ def resumir(raiz, salida, revisiones=None):
                 "tokens_entrada":info.get("prompt_tokens"),"tokens_salida":info.get("completion_tokens")}
         # Conservar métricas disponibles incluso cuando el último intento falló.
         fila.update({k:info.get("metricas",{}).get(k) for k in METRICAS})
-        fila["rq2"] = "pendiente de referencia independiente"
+        fila["estado_referencia"] = "pendiente de referencia independiente"
         registro = ruta.parent/"registro.json"
         if registro.exists():
             fila["huella_registro"] = huella(leer(registro))
         if revisiones and info["estado"] == "valido":
             evaluacion = puntuar(revisiones/ruta.parent.name,leer(registro),info["sha256_requisitos"])
             detalle[fila["caso"]] = evaluacion
-            fila.update({k:evaluacion[k] for k in ("precision","recall")})
-            fila["rq2"] = "con referencia por consenso"
+            fila.update({k:evaluacion[k] for k in ("precision","recall","f1")})
+            fila["estado_referencia"] = "con referencia por consenso"
         filas.append(fila)
     resumen = {}
     for k in METRICAS:
@@ -49,7 +49,7 @@ def resumir(raiz, salida, revisiones=None):
     salida.mkdir(parents=True,exist_ok=False)
     guardar(salida/"resultados.json",{"casos":filas,"agregado":resumen,"evaluacion_semantica":detalle})
     with (salida/"por-caso.csv").open("w",encoding="utf-8-sig",newline="") as f:
-        campos = ["caso","estado","error","modelo","segundos","correcciones","tokens_entrada","tokens_salida","rq2","huella_registro"]
+        campos = ["caso","estado","error","modelo","segundos","correcciones","tokens_entrada","tokens_salida","estado_referencia","huella_registro"]
         columnas = campos + [f"{k}_{s}" for k in METRICAS for s in ("numerador","denominador")]
         w = csv.DictWriter(f,fieldnames=columnas)
         w.writeheader()
@@ -73,7 +73,7 @@ def resumir(raiz, salida, revisiones=None):
         v=resumen[k]
         media="Pendiente" if v["media_por_caso"] is None else format(v["media_por_caso"],".1%")
         html.append(f"<tr><th>{t}</th><td>{fraccion((v['numerador'],v['denominador']))}</td><td>{media}</td><td>{v['casos_con_denominador']}</td></tr>")
-    html.extend(["</tbody></table><p>La completitud cuenta campos documentados. La precisión y el recall requieren correspondencias revisadas por dos personas. El cumplimiento de atributos de calidad requiere evaluar el sistema diseñado.</p>",
+    html.extend(["</tbody></table><p>La completitud cuenta campos documentados. La precisión, el recall y F1 requieren correspondencias revisadas por dos personas. El cumplimiento de atributos de calidad requiere evaluar el sistema diseñado.</p>",
                  "<h2>Costo de generación y corrección</h2><table><thead><tr><th>Medida</th><th>Total</th><th>Media por caso medido</th><th>Casos medidos</th></tr></thead><tbody>"])
     for k,titulo in [("correcciones","Correcciones"),("segundos","Segundos por ejecución"),
                      ("tokens_entrada","Tokens de entrada"),("tokens_salida","Tokens de salida")]:

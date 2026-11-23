@@ -42,23 +42,23 @@ def revisar_iteraciones(r):
         fuentes = set(adr["drivers_directos"])
         for escenario in adr["escenarios"]:
             if escenario not in escenarios:
-                raise ValueError(f"R4 {adr['id']}: escenario desconocido.")
+                raise ValueError(f"R5 {adr['id']}: escenario desconocido.")
             fuentes.add(escenarios[escenario])
         if set(adr["motivada_por"]) != fuentes:
-            raise ValueError(f"R4 {adr['id']}: motivos incompatibles con sus fuentes.")
+            raise ValueError(f"Coherencia {adr['id']}: motivos incompatibles con sus fuentes.")
     for n,it in enumerate(r["iteraciones"],1):
         objetivo = it["objetivo"]
         if it["numero"] != n or (objetivo != "SISTEMA" if n==1 else objetivo not in conocidos):
-            raise ValueError(f"R4 iteración {n}: número u objetivo de refinamiento inválido.")
+            raise ValueError(f"Integridad de iteraciones ADD, iteración {n}: número u objetivo de refinamiento inválido.")
         if it["decision"] not in decisiones or it["decision"] in usados or not it["creados"]:
-            raise ValueError(f"R4 iteración {n}: ADR inválido o sin elementos nuevos.")
+            raise ValueError(f"Integridad de iteraciones ADD, iteración {n}: ADR inválido o sin elementos nuevos.")
         usados.add(it["decision"])
         if set(it["reutilizados"]) - conocidos:
-            raise ValueError(f"R4 iteración {n}: se reutiliza un elemento que aún no existía.")
+            raise ValueError(f"Integridad de iteraciones ADD, iteración {n}: se reutiliza un elemento que aún no existía.")
         for k in it["creados"]:
             if k in conocidos or k not in elementos or elementos[k]["padre"] != objetivo:
-                raise ValueError(f"R4 iteración {n}: creación inconsistente de {k}.")
+                raise ValueError(f"Integridad de iteraciones ADD, iteración {n}: creación inconsistente de {k}.")
             conocidos.add(k)
     if conocidos!=set(elementos) or usados!=decisiones:
-        raise ValueError("R4: el registro tiene elementos o decisiones sin iteración ADD.")
+        raise ValueError("Integridad de iteraciones ADD: el registro tiene elementos o decisiones sin iteración ADD.")
 

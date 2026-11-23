@@ -29,32 +29,44 @@ def compilar(texto, comando):
         raise ValueError("PlantUML no devolvió un SVG.")
     return p.stdout
 
-def auditar(r, vistas, comando):
+def auditar(r, vistas, comando, *, compilar_vista=None):
+    compilar_vista = compilar_vista or compilar
     errores, svg = [], {}
     indices = {}
     for grupo, prefijo in [("drivers","DRV"),("escenarios","ESC"),("decisiones","DEC"),("elementos","ELM")]:
         filas = r[grupo]
         indices[grupo] = {x["id"]:x for x in filas}
         if len(indices[grupo]) != len(filas) or any(not re.fullmatch(prefijo+r"-\d+", k) for k in indices[grupo]):
-            errores.append(f"R4 {grupo}: identificadores repetidos o inválidos.")
+            errores.append(f"R5 {grupo}: identificadores repetidos o inválidos.")
     drivers, esc, dec, elm = (indices[k] for k in ("drivers","escenarios","decisiones","elementos"))
+    def comprobar_enlaces(origen, campo, referencias, destino, prefijo):
+        for valor in referencias:
+            if not isinstance(valor, str) or not re.fullmatch(prefijo + r"-\d+", valor):
+                errores.append(f"R6 {origen}: {campo} requiere {prefijo}, recibió {valor!r}.")
+            elif valor not in destino:
+                errores.append(f"R5 {origen}: {campo} referencia {valor}, que no existe.")
     cubiertos = set()
     for x in dec.values():
         ids = set(x["motivada_por"])
         if not ids.intersection(drivers):
             errores.append(f"R2 {x['id']}: carece de driver válido.")
         cubiertos.update(ids)
-        if ids - drivers.keys() or set(x["escenarios"]) - esc.keys():
-            errores.append(f"R4 {x['id']}: referencia desconocida.")
+        comprobar_enlaces(x["id"], "motivada_por", ids, drivers, "DRV")
+        comprobar_enlaces(x["id"], "drivers_directos", x.get("drivers_directos", []), drivers, "DRV")
+        comprobar_enlaces(x["id"], "escenarios", x["escenarios"], esc, "ESC")
         for e in set(x["escenarios"]).intersection(esc):
             if esc[e]["driver"] not in ids:
-                errores.append(f"R4 {x['id']}: {e} corresponde a otro driver.")
+                errores.append(f"Coherencia {x['id']}: {e} corresponde a otro driver.")
     for x in esc.values():
-        if x["driver"] not in drivers:
-            errores.append(f"R4 {x['id']}: driver inexistente.")
+        comprobar_enlaces(x["id"], "driver", [x["driver"]], drivers, "DRV")
+    realizadas = set()
     for x in elm.values():
-        if set(x["implementa"]) - dec.keys() or (x.get("padre","SISTEMA") != "SISTEMA" and x["padre"] not in elm):
-            errores.append(f"R4 {x['id']}: decisión o padre inexistente.")
+        comprobar_enlaces(x["id"], "implementa", x["implementa"], dec, "DEC")
+        realizadas.update(x["implementa"])
+        if x.get("padre","SISTEMA") != "SISTEMA":
+            comprobar_enlaces(x["id"], "padre", [x["padre"]], elm, "ELM")
+    for clave in sorted(dec.keys() - realizadas):
+        errores.append(f"R3 {clave}: decisión estructural sin elemento que la implemente.")
     priorizados = {k for k,x in drivers.items() if x["priorizado"]}
     for k in sorted(priorizados - cubiertos):
         errores.append(f"R1 {k}: sin decisión.")
@@ -64,38 +76,45 @@ def auditar(r, vistas, comando):
         declarados, usados = set(), set()
         formato = True
         lineas = [s.strip() for s in texto.splitlines() if s.strip()]
-        if lineas[:1] != ["@startuml"] or lineas[-1:] != ["@enduml"]:
+        if (lineas[:1] != ["@startuml"] or lineas[-1:] != ["@enduml"]
+                or lineas.count("@startuml") != 1 or lineas.count("@enduml") != 1):
             formato = False
-        for linea in lineas[1:-1]:
+        for numero, linea in enumerate(texto.splitlines(), 1):
+            linea = linea.strip()
+            if not linea or linea in ("@startuml", "@enduml"):
+                continue
             decl = re.fullmatch(tipo+r' "([^"]+)" as (ELM_\d+)', linea)
             flecha = re.fullmatch(r"(ELM_\d+) -> (ELM_\d+) : (.+)", linea)
             if decl:
                 nombre, alias = decl.groups()
                 k = alias.replace("_","-")
-                if k in declarados or k not in elm or etiqueta(elm[k]["nombre"]) != nombre:
-                    errores.append(f"R4 {vista}: alias {alias} repetido, inexistente o con nombre distinto.")
+                if k not in elm:
+                    errores.append(f"R5 {vista}: alias {alias} sin elemento en el registro.")
+                elif k in declarados or etiqueta(elm[k]["nombre"]) != nombre:
+                    errores.append(f"R7 {vista}: {alias} repetido o asociado a un nombre divergente.")
                 declarados.add(k)
             elif flecha:
                 usados.update(k.replace("_","-") for k in flecha.groups()[:2])
             else:
                 formato = False
+                errores.append(f"R8 {vista}: línea {numero} fuera de la sintaxis admitida.")
         if usados - declarados:
-            errores.append(f"R4 {vista}: alias sin declaración {sorted(usados-declarados)}.")
+            errores.append(f"R5 {vista}: alias sin declaración {sorted(usados-declarados)}.")
         if not formato or not declarados or not usados:
             errores.append(f"Vista {vista}: falta contenido o se usó sintaxis fuera del contrato.")
         visibles.update(declarados | usados)
         if vista == "componentes" and set(elm) - declarados:
-            errores.append("R4 componentes: faltan elementos del registro.")
+            errores.append("Vista componentes: faltan elementos del registro.")
         # Sólo se entrega al compilador el subconjunto que reconoce el auditor.
         if formato:
             try:
-                svg[vista] = compilar(texto, comando)
+                svg[vista] = compilar_vista(texto, comando)
             except (ValueError, ET.ParseError, OSError, subprocess.TimeoutExpired) as ex:
-                errores.append(f"R5 {vista}: {ex}")
+                errores.append(f"R8 {vista}: {ex}")
         else:
-            errores.append(f"R5 {vista}: compilación omitida por formato de entrada.")
+            errores.append(f"R8 {vista}: compilación omitida por formato de entrada.")
     huerfanos = sorted(k for k in visibles if k not in elm or not set(elm[k]["implementa"]).intersection(dec))
-    errores.extend(f"R3 {k}: elemento visible sin decisión." for k in huerfanos)
+    errores.extend(f"R4 {k}: elemento visible sin decisión." for k in huerfanos)
     ausente = {"sin especificar", "desconocido", "pendiente", "no especificado"}
     presentes = sum(isinstance(x.get(p), str) and bool(x[p].strip()) and x[p].strip().casefold().rstrip(".") not in ausente
                     for x in esc.values() for p in PARTES)

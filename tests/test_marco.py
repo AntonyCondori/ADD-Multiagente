@@ -44,20 +44,27 @@ class Reglas(unittest.TestCase):
         self.r["decisiones"][0]["motivada_por"] = ["DRV-99"]
         self.r["elementos"][0]["implementa"] = []
         errores,m,_ = self.revisar()
-        for regla in ("R1","R2","R3","R4"):
+        for regla in ("R1","R2","R4","R5"):
             self.assertTrue(any(e.startswith(regla) for e in errores))
         self.assertEqual(m["elementos_huerfanos"],[1,2])
 
     def test_nombre_y_alias_inexistente(self):
         self.v["secuencia"] = self.v["secuencia"].replace("ELM_02","ELM_99")
         errores,_,_ = self.revisar()
-        self.assertTrue(any(e.startswith("R4 secuencia") for e in errores))
+        self.assertTrue(any(e.startswith("R5 secuencia") for e in errores))
 
-    def test_r5_rechazo_compilador(self):
+    def test_r8_rechazo_compilador(self):
         with patch("marco.auditoria.compilar", side_effect=ValueError("error sintáctico")):
             errores,m,_ = auditar(self.r,self.v,[])
         self.assertEqual(m["validez_sintactica"],[0,2])
-        self.assertEqual(sum(e.startswith("R5") for e in errores),2)
+        self.assertEqual(sum(e.startswith("R8") for e in errores),2)
+
+    def test_decision_sin_realizacion_y_tipo_incorrecto(self):
+        for e in self.r["elementos"]:
+            e["implementa"] = ["DRV-01"]
+        errores,_,_ = self.revisar()
+        self.assertTrue(any(e.startswith("R3 DEC-01:") for e in errores))
+        self.assertTrue(any(e.startswith("R6 ELM-01:") for e in errores))
 
     def test_campo_faltante_no_cuenta(self):
         self.r["escenarios"][0]["medida"] = "Sin especificar"
@@ -85,7 +92,7 @@ class Reglas(unittest.TestCase):
 
     def test_un_objetivo_no_puede_preceder_a_su_creacion(self):
         self.r["iteraciones"][0]["objetivo"]="ELM-01"
-        with self.assertRaisesRegex(ValueError,"R4"):
+        with self.assertRaisesRegex(ValueError,"Integridad de iteraciones ADD"):
             revisar_iteraciones(self.r)
 
     def test_id_desconocido_y_tipo_invalido(self):
@@ -149,6 +156,7 @@ class Evaluacion(unittest.TestCase):
             res=puntuar(d,r,a["sha256_requisitos"])
             self.assertEqual(res["precision"],[4,5])
             self.assertEqual(res["recall"],[4,5])
+            self.assertEqual(res["f1"],[8,10])
             self.assertEqual(len(res["faltantes"]),1)
             caso = b/"lote/x"
             caso.mkdir(parents=True)
@@ -161,6 +169,7 @@ class Evaluacion(unittest.TestCase):
             })
             _, estadisticas = resumir(b/"lote",b/"informe",b/"rev")
             self.assertEqual(estadisticas["recall"]["media_por_caso"],0.8)
+            self.assertEqual(estadisticas["f1"]["media_por_caso"],0.8)
             self.assertTrue((b/"informe/informe.html").is_file())
 
     def test_excluye_replay_de_experimentos(self):

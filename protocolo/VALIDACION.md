@@ -6,11 +6,16 @@ La unidad de análisis es una ejecución identificada por el archivo de requisit
 
 | Pregunta | Evidencia | Interpretación |
 | --- | --- | --- |
-| RQ1. ¿Qué tan completos son los escenarios? | Campos de las seis partes con contenido dividido entre seis por escenario. | Presencia estructural. Revisen si la fuente, la medida y el entorno reflejan el requisito. Un campo «Sin especificar» queda fuera del numerador. |
-| RQ2. ¿Qué proporción de enlaces es correcta? | Precisión y recall frente a una referencia definida independientemente por dos personas. | La referencia se construye sobre el texto. La alineación posterior resuelve diferencias de nombre y numeración entre diseños. |
-| RQ3. ¿Cuánto trabajo requiere la corrección? | Llamadas posteriores al primer intento de un artefacto, tiempo de pared y tokens de entrada/salida. | Un refinamiento ADD previsto forma parte del diseño. Se cuenta una corrección cuando el verificador devuelve un rechazo y se repite el mismo artefacto. |
+| RQ1. ¿Qué proporción de enlaces es correcta? | Precisión, recall y F1 frente al consenso independiente de dos revisores. | La alineación posterior resuelve diferencias de nombre y numeración entre diseños. |
+| RQ2. ¿Qué fallos detecta y localiza el verificador? | Una mutación de cada tipo F1–F8 por caso, un control original y un intercambio F9. | La detección exige la regla esperada. La localización exige además identificar la entidad, el alias o la línea afectada. |
+| RQ3. ¿Se conservan los identificadores y nombres? | TRN sobre las menciones en ambas vistas y ES entre las dos iteraciones ADD. | ES admite la incorporación explícita de una decisión a un elemento reutilizado. |
+| RQ4. ¿Cuánto cuesta la generación y corrección? | Reintentos por artefacto, tiempo de pared y tokens de entrada/salida. | Cada refinamiento previsto pertenece al diseño. Una corrección ocurre cuando se repite un artefacto rechazado. |
 
-La validez sintáctica usa vistas compiladas/vistas previstas. La cobertura usa drivers priorizados con alguna decisión/drivers priorizados. La tasa de huérfanos usa elementos visibles sin decisión válida/elementos visibles únicos. La cobertura se calcula sobre los drivers extraídos por el analista. Omisiones en esa extracción afectan al significado de la métrica. Para RQ2 se conservan tanto enlaces sobrantes como esperados ausentes.
+Para RQ2, `python campana.py evidencia corridas/campana.json` vuelve a aplicar las mutaciones a copias independientes de cada caso válido. Se calcula la detección como detectados/sembrados, la localización como localizados/detectados y las alertas en controles como controles con alerta/controles originales. Los criterios del artículo son ≥90 %, ≥90 % y ≤5 %, respectivamente. F9 intercambia las justificaciones de dos elementos conservando el tipado y las referencias. Su adecuación al requisito exige juicio humano. El archivo de resultados conserva cada hallazgo para su inspección.
+
+Para RQ1, con C coincidencias tras la alineación, G enlaces generados y E enlaces de referencia, precisión = C/G, recall = C/E y F1 = 2C/(G+E). Un denominador nulo se informa como no evaluable. El informe distingue el agregado de enlaces y la media de los casos evaluables.
+
+La validez sintáctica usa vistas compiladas/vistas previstas. La cobertura usa drivers priorizados con alguna decisión/drivers priorizados. La tasa de huérfanos usa elementos visibles sin decisión válida/elementos visibles únicos. La cobertura se calcula sobre los drivers extraídos por el analista. Omisiones en esa extracción afectan al significado de la métrica. Para RQ1 se conservan tanto enlaces sobrantes como esperados ausentes.
 
 ## Preparar la referencia humana
 

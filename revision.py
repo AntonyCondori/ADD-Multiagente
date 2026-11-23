@@ -69,6 +69,7 @@ def puntuar(carpeta, r, firma):
     generados, esperados = enlaces(r), referencia(c)
     encontrados = {(mapa[a],t,mapa[b]) for a,t,b in generados if mapa[a] and mapa[b]} & esperados
     return {"precision":[len(encontrados),len(generados)], "recall":[len(encontrados),len(esperados)],
+            "f1":[2*len(encontrados),len(generados)+len(esperados)],
             "falsos_positivos":[list(e) for e in sorted(e for e in generados
                                 if (mapa[e[0]],e[1],mapa[e[2]]) not in esperados)],
             "faltantes":[list(e) for e in sorted(esperados-encontrados)]}

@@ -4,7 +4,14 @@ Una ejecución convierte requisitos en texto en drivers arquitectónicos, escena
 
 ## Ver una ejecución en clase
 
-Descomprime el ZIP completo y abre `informe/informe.html` en el navegador. Elige un caso y abre sus vistas de componentes y secuencia. El registro y su matriz permiten recorrer un enlace desde un requisito hasta el elemento del diagrama. El informe incluye los numeradores y denominadores medidos para cada caso.
+Clona el repositorio y entra en la carpeta del proyecto.
+
+```powershell
+git clone https://github.com/AntonyCondori/ADD-Multiagente.git
+cd ADD-Multiagente
+```
+
+Para explorar los ocho diseños sin instalar dependencias, abre `informe/informe.html` en el navegador. Elige un caso y abre sus vistas de componentes y secuencia. El registro y su matriz permiten recorrer un enlace desde un requisito hasta el elemento del diagrama. El informe incluye los numeradores y denominadores medidos para cada caso.
 
 Para una demostración de consola, ejecuta `python demo.py`. Usa el caso de reservas para mostrar una cadena real del diseño, retira un enlace en memoria y compara los hallazgos después de volver a compilar ambas vistas. También acepta la carpeta de cualquier otro caso válido.
 
@@ -15,13 +22,13 @@ python ejecutar.py casos/01-biblioteca.txt reproducciones/biblioteca --reproduci
 python auditar.py reproducciones/biblioteca
 ```
 
-La reproducción vuelve a procesar las respuestas, aplicar las reglas y compilar los diagramas. Requiere Python y PlantUML. Para demostrar R3, trabaja en esa copia: en `registro.json` elige un elemento visible y cambia su campo `implementa` a `[]`. Al ejecutar el auditor verás el ID del elemento huérfano aunque sus diagramas sigan compilando.
+La reproducción vuelve a procesar las respuestas, aplicar las reglas y compilar los diagramas. Requiere Python y PlantUML. Para demostrar R4, trabaja en esa copia: en `registro.json` elige un elemento visible y cambia su campo `implementa` a `[]`. Al ejecutar el auditor verás el ID del elemento huérfano aunque sus diagramas sigan compilando.
 
 El ensayo de corrección introduce un ID inexistente en el primer mensaje de una secuencia que había pasado la verificación. El agente Arquitecto recibe el hallazgo, el registro y la respuesta anterior para regenerar las vistas. Con el servidor activo se repite con `python ensayo_reparacion.py evidencia/02-reservas corridas/control`. La evidencia de esta prueba se guarda fuera del lote de ocho casos para mantener separadas las correcciones inducidas de las observadas durante la generación.
 
 ## Generar un diseño nuevo
 
-El proyecto usa Python 3.10 o posterior y su biblioteca estándar. Requiere Java y PlantUML para la verificación R5. El programa detecta el JAR de la extensión PlantUML de VS Code en Windows, el comando `plantuml` o la variable `PLANTUML_JAR`. También puedes indicar `--jar RUTA` al ejecutar el diseño o la auditoría.
+El proyecto usa Python 3.10 o posterior y su biblioteca estándar. Requiere Java y PlantUML para la verificación R8. El programa detecta el JAR de la extensión PlantUML de VS Code en Windows, el comando `plantuml` o la variable `PLANTUML_JAR`. También puedes indicar `--jar RUTA` al ejecutar el diseño o la auditoría.
 
 **Primera terminal.** Arranca el modelo local y espera a que el servidor indique que está escuchando.
 
@@ -72,6 +79,24 @@ El formato de intercambio se encuentra en `esquemas/registro.schema.json`. En un
 | `historial.json`, `respuestas.json` | Intentos por rol, errores concretos, respuesta original, huella de solicitud y uso de tokens. |
 | `ejecucion.json` | Estado, configuración del modelo, huella del software, entorno, tiempos y métricas. |
 
+## Evidencia del avance
+
+Los ocho casos de la semilla 7 produjeron 16 vistas compiladas y 32 elementos visibles con decisión. El lote original, sus respuestas y la versión que lo produjo se conservan en [la revisión del avance](https://github.com/AntonyCondori/ADD-Multiagente/tree/033949c). Los diagnósticos del auditor actual siguen la numeración R1–R8 del manuscrito. Los informes históricos conservan la numeración original.
+
+| Pregunta | Resultado y artefacto |
+| --- | --- |
+| RQ1 · Corrección de los enlaces | Precisión, recall y F1 se calculan cuando se incorporan las dos anotaciones y el consenso. [Protocolo de revisión](protocolo/VALIDACION.md) |
+| RQ2 · Detección y localización | En ocho diseños, el auditor detectó y localizó 64 de 64 mutaciones F1–F8. Los ocho controles originales pasaron sin alerta. Los ocho intercambios de enlaces F9 también pasaron el control estructural. [Hallazgos por caso y mutación](informe/campana-fallos.json) |
+| RQ3 · Consistencia | 262/262 menciones resolvieron al nombre canónico y 51/51 entidades se conservaron entre iteraciones. [Cómputos por caso](informe/consistencia.json) |
+| RQ4 · Costo | 40 llamadas generativas, cero reintentos, 27 579 tokens de entrada y 9 387 de salida. [Resultados del lote](informe/resultados.json) |
+
+Para repetir la campaña sobre copias en memoria y recalcular la consistencia, ejecuta lo siguiente desde la raíz.
+
+```powershell
+python campana.py evidencia corridas/campana.json
+python consistencia.py evidencia corridas/consistencia.json
+```
+
 ## Evaluación y pruebas
 
 | Sección del artículo | Implementación o evidencia |
@@ -82,7 +107,7 @@ El formato de intercambio se encuentra en `esquemas/registro.schema.json`. En un
 | VI.A–VI.B · Casos y métricas | Ocho archivos de entrada en `casos/`, métricas por ejecución y resultados agregados en `informe/`. |
 | VI.C–VI.E · Referencia, preguntas y amenazas | `revision.py`, `alinear.py`, `evaluar.py`, `expertos.py` y el protocolo de revisión humana. |
 
-El procedimiento de referencia independiente y las fórmulas se detallan en [el protocolo](protocolo/VALIDACION.md). Para iniciar la revisión, ejecuten `python revision.py casos mis-revisiones`. El informe inicial deja precisión y recall pendientes hasta que dos personas completen el consenso. El lote utiliza casos sintéticos y mide la generación y verificación del diseño. Para demostrar que una aplicación alcanza tiempos de respuesta o disponibilidad se requieren pruebas del sistema implementado.
+El procedimiento de referencia independiente y las fórmulas se detallan en [el protocolo](protocolo/VALIDACION.md). Para iniciar la revisión, ejecuten `python revision.py casos mis-revisiones`. El informe inicial deja precisión, recall y F1 pendientes hasta que dos personas completen el consenso. El lote utiliza casos sintéticos y mide la generación y verificación del diseño. Para demostrar que una aplicación alcanza tiempos de respuesta o disponibilidad se requieren pruebas del sistema implementado.
 
 Ejecuta la batería de pruebas con `python -m unittest discover -s tests -v`. Incluye casos negativos, reparación, agotamiento de reintentos, métricas de correspondencias y compilación real cuando PlantUML está disponible.
 
