@@ -1,0 +1,27 @@
+{
+  "sistema": "Windows x64",
+  "procesador": "AMD Ryzen 5 7520U con Radeon Graphics",
+  "python": "3.14.10",
+  "java": "24.0.1",
+  "plantuml": "1.2024.3",
+  "plantuml_jar_sha256": "31dfa10cf42934ddd52e413fae5c3e3087b5c6529696d70519836608a02a29e5",
+  "llm": "Qwen3.5 4B Q4_K_M",
+  "gguf_sha256": "a9d0a3e1d8c91732a3812becd31f8d4a8ff57414903f226306069f0437e2ac50",
+  "motor": "llama.cpp b12647",
+  "commit_motor": "7778de0c3",
+  "archivo_motor_sha256": "e5814566b6fdeebc5d1cff90d8881299602f78e2aa083923105d0bbff7889c7c",
+  "hilos_cpu": 4,
+  "slots": 2,
+  "contexto_total_tokens": 10240,
+  "contexto_por_slot_tokens": 5120,
+  "temperatura": 0,
+  "semilla": 7,
+  "max_tokens_respuesta": 2048,
+  "razonamiento": "off",
+  "casos_concurrentes": 2,
+  "iteraciones_ADD": 2,
+  "max_correcciones_por_artefacto": 3,
+  "calentamiento": "El modelo estaba cargado y el servidor había atendido solicitudes de integración antes del lote medido.",
+  "medicion_tiempo": "Reloj monotónico por caso desde la creación de sus entradas hasta registrar el resultado. Incluye espera del servidor, inferencia, verificación y compilación. El arranque del servidor queda fuera de esta medida."
+}
+

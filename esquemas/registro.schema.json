@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Registro incremental de diseño ADD",
+  "type": "object",
+  "properties": {
+    "drivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^DRV-[0-9]+$"
+          },
+          "tipo": {
+            "enum": [
+              "funcional",
+              "calidad",
+              "restriccion",
+              "preocupacion",
+              "objetivo"
+            ]
+          },
+          "texto": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priorizado": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "tipo",
+          "texto",
+          "priorizado"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "escenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ESC-[0-9]+$"
+          },
+          "driver": {
+            "type": "string",
+            "pattern": "^DRV-[0-9]+$"
+          },
+          "atributo": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fuente": {
+            "type": "string",
+            "minLength": 1
+          },
+          "estimulo": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artefacto": {
+            "type": "string",
+            "minLength": 1
+          },
+          "entorno": {
+            "type": "string",
+            "minLength": 1
+          },
+          "respuesta": {
+            "type": "string",
+            "minLength": 1
+          },
+          "medida": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "driver",
+          "atributo",
+          "fuente",
+          "estimulo",
+          "artefacto",
+          "entorno",
+          "respuesta",
+          "medida"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "decisiones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^DEC-[0-9]+$"
+          },
+          "motivada_por": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^DRV-[0-9]+$"
+            }
+          },
+          "drivers_directos": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^DRV-[0-9]+$"}
+          },
+          "escenarios": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^ESC-[0-9]+$"
+            }
+          },
+          "contexto": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tactica": {
+            "type": "string",
+            "minLength": 1
+          },
+          "alternativa": {
+            "type": "string",
+            "minLength": 1
+          },
+          "consecuencias": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "motivada_por",
+          "drivers_directos",
+          "escenarios",
+          "contexto",
+          "tactica",
+          "alternativa",
+          "consecuencias"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "elementos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ELM-[0-9]+$"
+          },
+          "nombre": {
+            "type": "string",
+            "minLength": 1
+          },
+          "implementa": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^DEC-[0-9]+$"
+            }
+          },
+          "padre": {
+            "type": "string",
+            "pattern": "^(SISTEMA|ELM-[0-9]+)$"
+          }
+        },
+        "required": [
+          "id",
+          "nombre",
+          "implementa",
+          "padre"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "iteraciones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "numero": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "objetivo": {
+            "type": "string",
+            "pattern": "^(SISTEMA|ELM-[0-9]+)$"
+          },
+          "decision": {
+            "type": "string",
+            "pattern": "^DEC-[0-9]+$"
+          },
+          "creados": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^ELM-[0-9]+$"
+            }
+          },
+          "reutilizados": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^ELM-[0-9]+$"}
+          }
+        },
+        "required": [
+          "numero",
+          "objetivo",
+          "decision",
+          "creados",
+          "reutilizados"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "drivers",
+    "escenarios",
+    "decisiones",
+    "elementos",
+    "iteraciones"
+  ],
+  "additionalProperties": false
+}
+

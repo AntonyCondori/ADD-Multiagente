@@ -1,0 +1,1 @@
+Un estudiante busca libros por título en el catálogo de la biblioteca. Durante la matrícula y con 100 consultas simultáneas, el servicio debe mostrar los resultados en menos de dos segundos en el percentil 95. Los resultados reutilizados pueden tener hasta 60 segundos de antigüedad.

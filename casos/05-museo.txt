@@ -1,0 +1,1 @@
+El visitante consulta fichas de piezas de un museo desde una tableta. En una sala sin internet, todas las fichas de la colección descargada deben abrirse en menos de un segundo. El curador actualiza la colección cada mañana antes de la apertura.

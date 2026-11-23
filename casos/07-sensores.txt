@@ -1,0 +1,1 @@
+Los sensores de un invernadero envían lecturas de temperatura cada diez segundos. Al llegar una lectura por encima del umbral configurado en operación normal, el sistema debe mostrar una alerta al operario en menos de tres segundos. El historial de lecturas debe conservarse durante treinta días.
