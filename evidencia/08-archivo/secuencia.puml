@@ -1,0 +1,10 @@
+@startuml
+participant "Pre-calculo de índices" as ELM_01
+participant "Cache temporal de resultados" as ELM_02
+participant "ELM-03" as ELM_03
+participant "ELM-04" as ELM_04
+ELM_02 -> ELM_01 : Recibe estimulo de búsqueda por fecha de cincuenta usuarios simultáneos.
+ELM_01 -> ELM_02 : Detecta que la latencia supera los tres segundos y activa pre-cálculo.
+ELM_04 -> ELM_03 : Inicia pipeline de actualización asíncrona tras pre-cálculo.
+ELM_03 -> ELM_04 : Completa sincronización de correcciones de metadatos.
+@enduml

@@ -1,0 +1,1 @@
+Los docentes publican avisos para sus cursos. Al publicarse un aviso durante el horario de clases, el sistema debe entregarlo al 95 por ciento de sus destinatarios en un minuto. Si el proveedor de correo está fuera de servicio, los avisos deben quedar pendientes hasta el siguiente intento.

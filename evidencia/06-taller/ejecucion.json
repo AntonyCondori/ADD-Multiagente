@@ -1,0 +1,37 @@
+{
+  "estado": "valido",
+  "modo": "inferencia",
+  "inicio_utc": "2026-11-23T04:09:14.362600+00:00",
+  "python": "3.14.10",
+  "modelo": "qwen3.5-4b-q4_K_M",
+  "semilla": 7,
+  "temperatura": 0,
+  "plantuml": "PlantUML version 1.2024.3 (Thu Feb 15 14:40:05 GMT-05:00 2024)",
+  "iteraciones_ADD": 2,
+  "max_correcciones_por_artefacto": 3,
+  "sha256_requisitos": "ad52d540c474ed50fec9bc263afb48c9fa92db0555e6c5fbdb7a8dcc070f13dd",
+  "huella_software": "fb1f8b060858e7906d695e7e09ee0a0dfb3002910110e23dcc10abea58a557c2",
+  "metricas": {
+    "cobertura_drivers": [
+      2,
+      2
+    ],
+    "elementos_huerfanos": [
+      0,
+      4
+    ],
+    "completitud_escenarios": [
+      2,
+      6
+    ],
+    "validez_sintactica": [
+      2,
+      2
+    ]
+  },
+  "segundos": 412.49,
+  "llamadas_registradas": 5,
+  "correcciones": 0,
+  "prompt_tokens": 3343,
+  "completion_tokens": 1010
+}

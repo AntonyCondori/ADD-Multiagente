@@ -1,0 +1,78 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Confirmar una sola reserva cuando dos alumnos solicitan la última sala simultáneamente.",
+      "tipo": "funcional",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": false,
+      "texto": "Consultar el historial de confirmaciones para la coordinación de la biblioteca.",
+      "tipo": "calidad",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Sistema de reservas",
+      "atributo": "Consistencia de datos",
+      "driver": "DRV-02",
+      "entorno": "Dos alumnos solicitan la última sala simultáneamente",
+      "estimulo": "Solicitud de reserva de dos alumnos para la misma franja",
+      "fuente": "Base de datos de reservas",
+      "medida": "Número de reservas confirmadas",
+      "respuesta": "Confirmar exactamente una reserva",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar un bloqueador de fila (lock) exclusivo en la base de datos al inicio de la transacción de reserva.",
+      "consecuencias": "Aumenta la latencia inicial de la solicitud pero garantiza la integridad de los datos sin depender de lógica compleja en la aplicación.",
+      "contexto": "El sistema actual permite que dos solicitudes concurrentes para la última sala se procesen secuencialmente sin coordinación, generando dos confirmaciones.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Usar un bloqueador de fila exclusivo para asegurar que solo una transacción pueda modificar el estado de la sala disponible.",
+      "drivers_directos": [
+        "DRV-01"
+      ],
+      "id": "DEC-01"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Bloqueador de fila (Lock)",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Transacción atómica",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

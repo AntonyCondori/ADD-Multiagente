@@ -1,0 +1,12 @@
+@startuml
+component "Pre-calculo de índices" as ELM_01
+component "Cache temporal de resultados" as ELM_02
+component "ELM-03" as ELM_03
+component "ELM-04" as ELM_04
+ELM_02 -> ELM_01 : Inicia pre-cálculo de índices para reducir latencia inicial.
+ELM_01 -> ELM_02 : Procesa consultas en tiempo real sobre metadatos no estructurados.
+ELM_04 -> ELM_03 : Sincroniza correcciones de metadatos al índice pre-calculado.
+ELM_03 -> ELM_04 : Ejecuta pipeline de actualización asíncrona para mantener consistencia.
+ELM_01 -> ELM_03 : se descompone en
+ELM_01 -> ELM_04 : se descompone en
+@enduml

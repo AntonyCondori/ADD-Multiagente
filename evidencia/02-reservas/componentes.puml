@@ -1,0 +1,12 @@
+@startuml
+component "Bloqueador de fila (Lock)" as ELM_01
+component "Transacción atómica" as ELM_02
+component "Versión de registro (Version)" as ELM_03
+component "Detector de conflicto (ConflictDetector)" as ELM_04
+ELM_02 -> ELM_01 : Iniciar bloqueo exclusivo para garantizar integridad de datos.
+ELM_01 -> ELM_02 : Ejecutar transacción atómica bajo control del bloqueador.
+ELM_01 -> ELM_03 : Asignar versión de registro para optimismo concurrente.
+ELM_03 -> ELM_04 : Detectar conflicto entre versiones y revertir transacción.
+ELM_01 -> ELM_03 : se descompone en
+ELM_01 -> ELM_04 : se descompone en
+@enduml

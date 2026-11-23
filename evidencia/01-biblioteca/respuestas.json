@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "9e0ff5bc2983246fe726ec93f498f838dbe9c485510a7712577fde17ced06687",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"Búsqueda de libros por título en el catálogo de la biblioteca.\",\"tipo\":\"funcional\"},{\"priorizado\":false,\"texto\":\"Mostrar resultados en menos de dos segundos en el percentil 95 con 100 consultas simultáneas.\",\"tipo\":\"calidad\"},{\"priorizado\":false,\"texto\":\"Resultados reutilizados con hasta 60 segundos de antigüedad.\",\"tipo\":\"calidad\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 95,
+      "prompt_tokens": 298,
+      "total_tokens": 393,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 48.938
+  },
+  {
+    "firma": "a593b8c87cb081add2213e899ad4bbae5c2f293ed6abc7cee1f8a6fc777facc3",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Catálogo de la biblioteca\",\n      \"atributo\": \"Tiempo de respuesta\",\n      \"driver\": \"DRV-02\",\n      \"entorno\": \"Durante la matrícula y con 100 consultas simultáneas\",\n      \"estimulo\": \"Búsqueda de libros por título\",\n      \"fuente\": \"Servicio de búsqueda\",\n      \"medida\": \"Tiempo en segundos\",\n      \"respuesta\": \"Menos de dos segundos en el percentil 95\"\n    },\n    {\n      \"artefacto\": \"Catálogo de la biblioteca\",\n      \"atributo\": \"Antigüedad de resultados\",\n      \"driver\": \"DRV-03\",\n      \"entorno\": \"General\",\n      \"estimulo\": \"Consulta de resultados\",\n      \"fuente\": \"Sistema de caché\",\n      \"medida\": \"Tiempo en segundos\",\n      \"respuesta\": \"Hasta 60 segundos\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 239,
+      "prompt_tokens": 517,
+      "total_tokens": 756,
+      "prompt_tokens_details": {
+        "cached_tokens": 513
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 86.925
+  },
+  {
+    "firma": "b6e5fcbd9d29c9ecf32a86ee9f0bb92d301c47d5e413c182350f7ff1cb9084dc",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar un motor de búsqueda híbrido que combine SQL con un índice inverso en Elasticsearch para acelerar búsquedas por título.\",\n  \"consecuencias\": \"Mejora la latencia inicial pero introduce complejidad en la sincronización de datos entre bases de datos.\",\n  \"contexto\": \"El sistema actual depende exclusivamente de consultas SQL complejas que no escalan bajo carga concurrente.\",\n  \"escenarios\": [\n    \"ESC-01\",\n    \"ESC-02\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Motor de búsqueda híbrido\",\n    \"Sincronizador de índices\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Introducir un índice inverso externo para búsquedas de texto completo, delegando la lógica de validación de catálogo a la base de datos principal.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 229,
+      "prompt_tokens": 766,
+      "total_tokens": 995,
+      "prompt_tokens_details": {
+        "cached_tokens": 249
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 118.941
+  },
+  {
+    "firma": "bd0e6ad8e9ef58b8e061732869999f60ac7976bc2ed5273c41e212575ccdfc67",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Integrar un motor de recomendación basado en grafos de co-ocurrencia para sugerir libros relacionados.\",\n  \"consecuencias\": \"Aumenta la retención de usuarios pero incrementa el consumo de CPU en el procesamiento de grafos.\",\n  \"contexto\": \"El catálogo actual cumple con búsquedas exactas pero falla en descubrir contenido relevante por similitud temática.\",\n  \"escenarios\": [\n    \"ESC-01\",\n    \"ESC-02\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\",\n    \"DRV-03\"\n  ],\n  \"nuevos_elementos\": [\n    \"ELM-03\",\n    \"ELM-04\"\n  ],\n  \"objetivo\": \"ELM-01\",\n  \"tactica\": \"Implementar un algoritmo de PageRank simplificado sobre el grafo de libros para precalcular rutas de descubrimiento.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 231,
+      "prompt_tokens": 1038,
+      "total_tokens": 1269,
+      "prompt_tokens_details": {
+        "cached_tokens": 249
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 144.653
+  },
+  {
+    "firma": "60d8cfbd0476dc81a0b376b5bac53fb4c2446178aa21d70b178541e9f719e53c",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Requiere motor híbrido para escalar búsquedas bajo carga concurrente.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Necesita sincronización de datos para mantener consistencia del índice inverso.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Implementa lógica de precalculación de rutas de descubrimiento.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Procesa grafo de co-ocurrencia para sugerir contenido relevante.\",\n      \"origen\": \"ELM-03\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibe consulta de búsqueda por título del catálogo.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Ejecuta consulta SQL compleja para filtrar títulos exactos.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Consulta índice inverso de Elasticsearch para acelerar resultados.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Analiza similitud temática de los resultados encontrados.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Calcula rutas de descubrimiento usando algoritmo PageRank.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Combina resultados exactos con sugerencias temáticas.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Valida catálogo contra base de datos principal.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Envía resultados finales al usuario.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Actualiza grafo de co-ocurrencia con nuevos datos.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Recalcula rutas de descubrimiento para consistencia.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Utiliza caché para reutilizar resultados con antigüedad < 60s.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Optimiza latencia inicial mediante índices híbridos.\",\n      \"origen\": \"ELM-02\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 836,
+      "prompt_tokens": 1283,
+      "total_tokens": 2119,
+      "prompt_tokens_details": {
+        "cached_tokens": 1
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 329.346
+  }
+]

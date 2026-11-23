@@ -1,0 +1,227 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evaluación del marco ADD</title><style>body{font:16px/1.55 system-ui;color:#182c36;max-width:1100px;margin:3em auto;padding:0 1.5em}h1,h2{color:#164b46}table{border-collapse:collapse;display:block;overflow-x:auto}th,td{text-align:left;border-bottom:1px solid #cddad7;padding:.55em .85em}thead{background:#e9f3f0}a{color:#075b85}small{color:#456}article{border-top:2px solid #cddad7;margin:2em 0}code{font-size:.9em}</style>
+<h1>Evaluación del marco multiagente ADD</h1>
+<p>8 de 8 casos alcanzaron la verificación final. Cada caso corresponde a una ejecución de inferencia.</p>
+<h2>Resultados estructurales y semánticos</h2><table><thead><tr><th>Métrica</th><th>Numerador / denominador</th><th>Media por caso</th><th>Casos medidos</th></tr></thead><tbody>
+<tr><th>Vistas compiladas</th><td>16/16</td><td>100.0%</td><td>8</td></tr>
+<tr><th>Drivers cubiertos</th><td>11/11</td><td>100.0%</td><td>8</td></tr>
+<tr><th>Elementos huérfanos</th><td>0/32</td><td>0.0%</td><td>8</td></tr>
+<tr><th>Partes de escenario presentes</th><td>41/54</td><td>72.9%</td><td>8</td></tr>
+<tr><th>Precisión</th><td>Pendiente o sin denominador</td><td>Pendiente</td><td>0</td></tr>
+<tr><th>Recall</th><td>Pendiente o sin denominador</td><td>Pendiente</td><td>0</td></tr>
+</tbody></table><p>La completitud cuenta campos documentados. La precisión y el recall requieren correspondencias revisadas por dos personas. El cumplimiento de atributos de calidad requiere evaluar el sistema diseñado.</p>
+<h2>Costo de generación y corrección</h2><table><thead><tr><th>Medida</th><th>Total</th><th>Media por caso medido</th><th>Casos medidos</th></tr></thead><tbody>
+<tr><th>Correcciones</th><td>0.00</td><td>0.00</td><td>8</td></tr>
+<tr><th>Segundos por ejecución</th><td>4214.40</td><td>526.80</td><td>8</td></tr>
+<tr><th>Tokens de entrada</th><td>27579.00</td><td>3447.38</td><td>8</td></tr>
+<tr><th>Tokens de salida</th><td>9387.00</td><td>1173.38</td><td>8</td></tr>
+</tbody></table><h2>Casos y artefactos</h2>
+<article><h3>01-biblioteca</h3><p>Un estudiante busca libros por título en el catálogo de la biblioteca. Durante la matrícula y con 100 consultas simultáneas, el servicio debe mostrar los resultados en menos de dos segundos en el percentil 95. Los resultados reutilizados pueden tener hasta 60 segundos de antigüedad.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 735.105 s · Tokens de entrada/salida: 3902 / 1630.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 1/1 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 12/12</p>
+<p><a href="../evidencia/01-biblioteca/componentes.svg">Componentes</a> · <a href="../evidencia/01-biblioteca/secuencia.svg">Secuencia</a> · <a href="../evidencia/01-biblioteca/registro.json">Registro y ADR</a> · <a href="../evidencia/01-biblioteca/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/01-biblioteca/historial.json">Correcciones</a> · <a href="../evidencia/01-biblioteca/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Introducir un índice inverso externo para búsquedas de texto completo, delegando la lógica de validación de catálogo a la base de datos principal.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual depende exclusivamente de consultas SQL complejas que no escalan bajo carga concurrente.</p>
+<p><strong>Alternativa</strong> · Implementar un motor de búsqueda híbrido que combine SQL con un índice inverso en Elasticsearch para acelerar búsquedas por título.</p>
+<p><strong>Consecuencias</strong> · Mejora la latencia inicial pero introduce complejidad en la sincronización de datos entre bases de datos.</p>
+<ul>
+<li>DRV-01 · Búsqueda de libros por título en el catálogo de la biblioteca.</li>
+<li>DRV-02 · Mostrar resultados en menos de dos segundos en el percentil 95 con 100 consultas simultáneas.</li>
+<li>DRV-03 · Resultados reutilizados con hasta 60 segundos de antigüedad.</li>
+</ul><p>Elementos creados · ELM-01 Motor de búsqueda híbrido, ELM-02 Sincronizador de índices</p>
+<h4>Iteración 2 · DEC-02 · Implementar un algoritmo de PageRank simplificado sobre el grafo de libros para precalcular rutas de descubrimiento.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · El catálogo actual cumple con búsquedas exactas pero falla en descubrir contenido relevante por similitud temática.</p>
+<p><strong>Alternativa</strong> · Integrar un motor de recomendación basado en grafos de co-ocurrencia para sugerir libros relacionados.</p>
+<p><strong>Consecuencias</strong> · Aumenta la retención de usuarios pero incrementa el consumo de CPU en el procesamiento de grafos.</p>
+<ul>
+<li>DRV-01 · Búsqueda de libros por título en el catálogo de la biblioteca.</li>
+<li>DRV-02 · Mostrar resultados en menos de dos segundos en el percentil 95 con 100 consultas simultáneas.</li>
+<li>DRV-03 · Resultados reutilizados con hasta 60 segundos de antigüedad.</li>
+</ul><p>Elementos creados · ELM-03 ELM-03, ELM-04 ELM-04</p>
+</details>
+</article>
+<article><h3>02-reservas</h3><p>Los alumnos reservan una sala de estudio por franja horaria. Si dos alumnos solicitan la última sala para la misma franja al mismo tiempo, el sistema debe confirmar exactamente una reserva. La coordinación de la biblioteca necesita consultar el historial de confirmaciones.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 575.505 s · Tokens de entrada/salida: 3399 / 1192.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 1/1 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 6/6</p>
+<p><a href="../evidencia/02-reservas/componentes.svg">Componentes</a> · <a href="../evidencia/02-reservas/secuencia.svg">Secuencia</a> · <a href="../evidencia/02-reservas/registro.json">Registro y ADR</a> · <a href="../evidencia/02-reservas/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/02-reservas/historial.json">Correcciones</a> · <a href="../evidencia/02-reservas/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Usar un bloqueador de fila exclusivo para asegurar que solo una transacción pueda modificar el estado de la sala disponible.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual permite que dos solicitudes concurrentes para la última sala se procesen secuencialmente sin coordinación, generando dos confirmaciones.</p>
+<p><strong>Alternativa</strong> · Implementar un bloqueador de fila (lock) exclusivo en la base de datos al inicio de la transacción de reserva.</p>
+<p><strong>Consecuencias</strong> · Aumenta la latencia inicial de la solicitud pero garantiza la integridad de los datos sin depender de lógica compleja en la aplicación.</p>
+<ul>
+<li>DRV-01 · Confirmar una sola reserva cuando dos alumnos solicitan la última sala simultáneamente.</li>
+<li>DRV-02 · Consultar el historial de confirmaciones para la coordinación de la biblioteca.</li>
+</ul><p>Elementos creados · ELM-01 Bloqueador de fila (Lock), ELM-02 Transacción atómica</p>
+<h4>Iteración 2 · DEC-02 · Usar versiones de registro para permitir procesamiento paralelo y revertir transacciones en caso de conflicto.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · El bloqueador exclusivo actual impide que dos solicitudes concurrentes para la última sala se procesen secuencialmente sin coordinación, generando dos confirmaciones.</p>
+<p><strong>Alternativa</strong> · Implementar un algoritmo de optimismo con versiones en la base de datos.</p>
+<p><strong>Consecuencias</strong> · Reduce la latencia inicial eliminando bloqueos, pero aumenta la carga de procesamiento por conflictos y requiere lógica de recuperación.</p>
+<ul>
+<li>DRV-01 · Confirmar una sola reserva cuando dos alumnos solicitan la última sala simultáneamente.</li>
+<li>DRV-02 · Consultar el historial de confirmaciones para la coordinación de la biblioteca.</li>
+</ul><p>Elementos creados · ELM-03 Versión de registro (Version), ELM-04 Detector de conflicto (ConflictDetector)</p>
+</details>
+</article>
+<article><h3>03-inventario</h3><p>Un encargado registra entradas y salidas de materiales por almacén. Cuando se interrumpe la conexión, la aplicación móvil debe conservar hasta 200 movimientos durante ocho horas. Al recuperar la conexión debe sincronizarlos sin duplicar unidades.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 531.998 s · Tokens de entrada/salida: 3425 / 1102.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 2/2 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 6/6</p>
+<p><a href="../evidencia/03-inventario/componentes.svg">Componentes</a> · <a href="../evidencia/03-inventario/secuencia.svg">Secuencia</a> · <a href="../evidencia/03-inventario/registro.json">Registro y ADR</a> · <a href="../evidencia/03-inventario/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/03-inventario/historial.json">Correcciones</a> · <a href="../evidencia/03-inventario/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Introducir un buffer de eventos de 200 items que se procesa en hilos de fondo; el reconciliador detecta la conexión y ejecuta merge único.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual usa transacciones síncronas que bloquean la UI; se necesita un patrón de almacenamiento por lotes para soportar interrupciones prolongadas.</p>
+<p><strong>Alternativa</strong> · Implementar cola de eventos asíncrona con límite de 200 items y reindexación diferida.</p>
+<p><strong>Consecuencias</strong> · Introduce latencia de 1-2s en escritura y riesgo de pérdida si el buffer se llena antes de la recuperación.</p>
+<ul>
+<li>DRV-01 · Conservar 200 movimientos durante 8 horas ante interrupción de conexión.</li>
+<li>DRV-02 · Sincronizar movimientos al recuperar conexión sin duplicar unidades.</li>
+</ul><p>Elementos creados · ELM-01 Buffer de eventos, ELM-02 Reconciliador asíncrono</p>
+<h4>Iteración 2 · DEC-02 · Escribir cada movimiento en un archivo de log antes de insertarlo en el buffer; el Reconciliador lee el log para reconstruir el estado si el buffer se corrompe.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · El ELM Buffer actual permite acumular datos pero no garantiza que los movimientos sobrevivan si el disco falla antes de la escritura persistente.</p>
+<p><strong>Alternativa</strong> · Introducir un patrón de &#x27;Write-Ahead Log&#x27; (WAL) en el ELM Buffer para garantizar durabilidad antes de la escritura final.</p>
+<p><strong>Consecuencias</strong> · Incrementa el consumo de disco en lectura/escritura y añade complejidad de gestión de logs.</p>
+<ul>
+<li>DRV-01 · Conservar 200 movimientos durante 8 horas ante interrupción de conexión.</li>
+<li>DRV-02 · Sincronizar movimientos al recuperar conexión sin duplicar unidades.</li>
+</ul><p>Elementos creados · ELM-03 Log de eventos, ELM-04 Checkpoint de disco</p>
+</details>
+</article>
+<article><h3>04-mensajeria</h3><p>Los docentes publican avisos para sus cursos. Al publicarse un aviso durante el horario de clases, el sistema debe entregarlo al 95 por ciento de sus destinatarios en un minuto. Si el proveedor de correo está fuera de servicio, los avisos deben quedar pendientes hasta el siguiente intento.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 553.95 s · Tokens de entrada/salida: 3438 / 1096.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 2/2 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 6/6</p>
+<p><a href="../evidencia/04-mensajeria/componentes.svg">Componentes</a> · <a href="../evidencia/04-mensajeria/secuencia.svg">Secuencia</a> · <a href="../evidencia/04-mensajeria/registro.json">Registro y ADR</a> · <a href="../evidencia/04-mensajeria/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/04-mensajeria/historial.json">Correcciones</a> · <a href="../evidencia/04-mensajeria/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Desacoplar la publicación del envío mediante una cola asíncrona que permite reintentos automáticos tras fallos transitorios.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual procesa avisos síncronamente, lo que bloquea la entrega si el proveedor falla y impide cumplir el 95% en 60s.</p>
+<p><strong>Alternativa</strong> · Implementar cola de mensajes asíncrona con reintentos exponenciales.</p>
+<p><strong>Consecuencias</strong> · Mejora la calidad de entrega sin sacrificar la restricción de pausa ante fallos.</p>
+<ul>
+<li>DRV-01 · Entregar avisos al 95% de destinatarios en un minuto.</li>
+<li>DRV-02 · Pausar envío si el proveedor de correo está fuera de servicio.</li>
+</ul><p>Elementos creados · ELM-01 Cola de mensajes, ELM-02 Motor de reintentos</p>
+<h4>Iteración 2 · DEC-02 · Implementar un algoritmo de reintentos que incrementa el tiempo de espera tras cada fallo transitorio, deteniéndose si el proveedor permanece inactivo.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · La cola actual permite el desacoplamiento pero carece de lógica interna para gestionar automáticamente los fallos temporales del proveedor.</p>
+<p><strong>Alternativa</strong> · Integrar un motor de reintentos exponencial dentro de la cola asíncrona.</p>
+<p><strong>Consecuencias</strong> · Aumenta la resiliencia ante fallos transitorios sin comprometer la pausa ante caídas permanentes.</p>
+<ul>
+<li>DRV-01 · Entregar avisos al 95% de destinatarios en un minuto.</li>
+<li>DRV-02 · Pausar envío si el proveedor de correo está fuera de servicio.</li>
+</ul><p>Elementos creados · ELM-03 Lógica de backoff exponencial, ELM-04 Monitor de estado del proveedor</p>
+</details>
+</article>
+<article><h3>05-museo</h3><p>El visitante consulta fichas de piezas de un museo desde una tableta. En una sala sin internet, todas las fichas de la colección descargada deben abrirse en menos de un segundo. El curador actualiza la colección cada mañana antes de la apertura.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 520.931 s · Tokens de entrada/salida: 3283 / 1264.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 1/1 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 6/6</p>
+<p><a href="../evidencia/05-museo/componentes.svg">Componentes</a> · <a href="../evidencia/05-museo/secuencia.svg">Secuencia</a> · <a href="../evidencia/05-museo/registro.json">Registro y ADR</a> · <a href="../evidencia/05-museo/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/05-museo/historial.json">Correcciones</a> · <a href="../evidencia/05-museo/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Servir desde CacheLocal si disponible, validar contra ValidadorIntegridad en segundo plano usando la versión actualizada.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El visitante necesita acceso rápido a fichas en salas sin conectividad, mientras el curador mantiene la colección actualizada diariamente.</p>
+<p><strong>Alternativa</strong> · Implementar caché local agresiva con validación de integridad en segundo plano.</p>
+<p><strong>Consecuencias</strong> · Mejora la experiencia inmediata pero consume más almacenamiento local y riesgo de datos obsoletos.</p>
+<ul>
+<li>DRV-01 · Carga instantánea de fichas en sala sin internet</li>
+<li>DRV-02 · Actualización diaria de la colección</li>
+</ul><p>Elementos creados · ELM-01 CacheLocal, ELM-02 ValidadorIntegridad</p>
+<h4>Iteración 2 · DEC-02 · Implementar un &#x27;Modo Offline Agresivo&#x27; que deshabilita la validación de integridad en tiempo real, confiando en la sincronización previa.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · Prioridad absoluta a la experiencia del visitante en salas sin red, aceptando un riesgo controlado de datos desactualizados.</p>
+<p><strong>Alternativa</strong> · Servir fichas desde CacheLocal sin validación en segundo plano para garantizar latencia mínima absoluta.</p>
+<p><strong>Consecuencias</strong> · Eliminamos el riesgo de datos obsoletos pero aumentamos la probabilidad de mostrar información incorrecta si la colección local no se sincronizó.</p>
+<ul>
+<li>DRV-01 · Carga instantánea de fichas en sala sin internet</li>
+<li>DRV-02 · Actualización diaria de la colección</li>
+</ul><p>Elementos creados · ELM-03 ELM-03, ELM-04 ELM-04</p>
+</details>
+</article>
+<article><h3>06-taller</h3><p>Un taller agenda reparaciones y permite al cliente consultar su estado por número de orden. Ante una interrupción del servidor principal durante la jornada, el servicio de consulta debe volver a estar disponible en cinco minutos. Las modificaciones a una orden deben conservar su autor y hora.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 412.49 s · Tokens de entrada/salida: 3343 / 1010.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 2/2 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 2/6</p>
+<p><a href="../evidencia/06-taller/componentes.svg">Componentes</a> · <a href="../evidencia/06-taller/secuencia.svg">Secuencia</a> · <a href="../evidencia/06-taller/registro.json">Registro y ADR</a> · <a href="../evidencia/06-taller/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/06-taller/historial.json">Correcciones</a> · <a href="../evidencia/06-taller/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Desplegar arquitectura de alta disponibilidad con replicación asíncrona para tolerancia a fallos.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual colapsa ante fallos de servidor, impidiendo consultas críticas.</p>
+<p><strong>Alternativa</strong> · Implementar un clúster de servidores con failover automático y base de datos replicada en tiempo real.</p>
+<p><strong>Consecuencias</strong> · Aumenta la complejidad operativa y el costo inicial, pero garantiza la recuperación en 5 minutos.</p>
+<ul>
+<li>DRV-01 · El sistema debe recuperar la disponibilidad de consultas en cinco minutos tras una interrupción del servidor.</li>
+<li>DRV-02 · Las modificaciones a una orden deben conservar su autor y hora.</li>
+</ul><p>Elementos creados · ELM-01 Servidor Secundario, ELM-02 Motor de Sincronización</p>
+<h4>Iteración 2 · DEC-02 · Desplegar arquitectura de alta disponibilidad con replicación asíncrona para tolerancia a fallos.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · El sistema actual colapsa ante fallos de servidor, impidiendo consultas críticas.</p>
+<p><strong>Alternativa</strong> · Implementar un clúster de servidores con failover automático y base de datos replicada en tiempo real.</p>
+<p><strong>Consecuencias</strong> · Aumenta la complejidad operativa y el costo inicial, pero garantiza la recuperación en 5 minutos.</p>
+<ul>
+<li>DRV-01 · El sistema debe recuperar la disponibilidad de consultas en cinco minutos tras una interrupción del servidor.</li>
+<li>DRV-02 · Las modificaciones a una orden deben conservar su autor y hora.</li>
+</ul><p>Elementos creados · ELM-03 ELM-03: Controlador de Estado, ELM-04 ELM-04: Replicador de Logs</p>
+</details>
+</article>
+<article><h3>07-sensores</h3><p>Los sensores de un invernadero envían lecturas de temperatura cada diez segundos. Al llegar una lectura por encima del umbral configurado en operación normal, el sistema debe mostrar una alerta al operario en menos de tres segundos. El historial de lecturas debe conservarse durante treinta días.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 465.755 s · Tokens de entrada/salida: 3417 / 1040.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 1/1 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 0/6</p>
+<p><a href="../evidencia/07-sensores/componentes.svg">Componentes</a> · <a href="../evidencia/07-sensores/secuencia.svg">Secuencia</a> · <a href="../evidencia/07-sensores/registro.json">Registro y ADR</a> · <a href="../evidencia/07-sensores/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/07-sensores/historial.json">Correcciones</a> · <a href="../evidencia/07-sensores/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Descomponer el sistema en &#x27;Motor de Lectura&#x27; y &#x27;Capa de Alerta&#x27;, delegando la notificación al nuevo módulo para reducir carga en la capa visual.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual muestra alertas visuales; se prioriza reducir el tiempo de detección para DRV-01.</p>
+<p><strong>Alternativa</strong> · Implementar notificación push en lugar de alerta visual en pantalla.</p>
+<p><strong>Consecuencias</strong> · Reduce latencia percibida pero elimina la necesidad de monitoreo visual continuo.</p>
+<ul>
+<li>DRV-01 · Mostrar alerta en menos de tres segundos</li>
+<li>DRV-02 · Conservar historial de lecturas durante treinta días</li>
+</ul><p>Elementos creados · ELM-01 Módulo de notificación, ELM-02 Canal Push</p>
+<h4>Iteración 2 · DEC-02 · Refinar ELM-02 agregando ELM-03 para filtrar datos antes de notificar, permitiendo ELM-04 como canal alternativo.</h4>
+<p><strong>Elemento refinado</strong> · ELM-02</p>
+<p><strong>Contexto</strong> · El sistema actual muestra alertas visuales; se prioriza reducir el tiempo de detección para DRV-01.</p>
+<p><strong>Alternativa</strong> · Implementar notificación push en lugar de alerta visual en pantalla.</p>
+<p><strong>Consecuencias</strong> · Reduce latencia percibida pero elimina la necesidad de monitoreo visual continuo.</p>
+<ul>
+<li>DRV-01 · Mostrar alerta en menos de tres segundos</li>
+<li>DRV-02 · Conservar historial de lecturas durante treinta días</li>
+</ul><p>Elementos creados · ELM-03 ELM-03: Motor de Procesamiento, ELM-04 ELM-04: Canal Push</p>
+</details>
+</article>
+<article><h3>08-archivo</h3><p>Un investigador busca expedientes por fecha en un archivo digital. Con cincuenta usuarios simultáneos, el percentil 95 de las búsquedas debe ser inferior a tres segundos. Una corrección de metadatos debe aparecer en los resultados en un máximo de dos minutos.
+</p>
+<p>Estado: valido · Correcciones: 0 · Tiempo: 418.663 s · Tokens de entrada/salida: 3372 / 1053.</p>
+<p>Vistas compiladas: 2/2 · Drivers cubiertos: 1/1 · Elementos huérfanos: 0/4 · Partes de escenario presentes: 3/6</p>
+<p><a href="../evidencia/08-archivo/componentes.svg">Componentes</a> · <a href="../evidencia/08-archivo/secuencia.svg">Secuencia</a> · <a href="../evidencia/08-archivo/registro.json">Registro y ADR</a> · <a href="../evidencia/08-archivo/trazabilidad.csv">Matriz de enlaces</a> · <a href="../evidencia/08-archivo/historial.json">Correcciones</a> · <a href="../evidencia/08-archivo/ejecucion.json">Configuración y métricas</a></p>
+<details><summary>Examinar las decisiones y su trazabilidad</summary>
+<h4>Iteración 1 · DEC-01 · Migrar la lógica de búsqueda de fecha a un índice pre-calculado en lugar de consultas en tiempo real.</h4>
+<p><strong>Elemento refinado</strong> · SISTEMA</p>
+<p><strong>Contexto</strong> · El sistema actual depende de búsquedas en tiempo real sobre metadatos no estructurados, causando tiempos de respuesta superiores al límite de tres segundos bajo carga.</p>
+<p><strong>Alternativa</strong> · Implementar un motor de búsqueda híbrido con pre-calculación de índices temporales.</p>
+<p><strong>Consecuencias</strong> · Mejora la latencia inicial pero incrementa el consumo de recursos de almacenamiento y mantenimiento.</p>
+<ul>
+<li>DRV-01 · Búsqueda por fecha en menos de tres segundos para el percentil 95 con cincuenta usuarios simultáneos.</li>
+</ul><p>Elementos creados · ELM-01 Pre-calculo de índices, ELM-02 Cache temporal de resultados</p>
+<h4>Iteración 2 · DEC-02 · Integrar un pipeline de actualización asíncrona para sincronizar correcciones de metadatos con el índice pre-calculado.</h4>
+<p><strong>Elemento refinado</strong> · ELM-01</p>
+<p><strong>Contexto</strong> · El sistema actual depende de búsquedas en tiempo real sobre metadatos no estructurados, causando tiempos de respuesta superiores al límite de tres segundos bajo carga.</p>
+<p><strong>Alternativa</strong> · Implementar un motor de búsqueda híbrido con pre-calculación de índices temporales.</p>
+<p><strong>Consecuencias</strong> · Mejora la latencia inicial pero incrementa el consumo de recursos de almacenamiento y mantenimiento.</p>
+<ul>
+<li>DRV-01 · Búsqueda por fecha en menos de tres segundos para el percentil 95 con cincuenta usuarios simultáneos.</li>
+</ul><p>Elementos creados · ELM-03 ELM-03, ELM-04 ELM-04</p>
+</details>
+</article>
+</html>

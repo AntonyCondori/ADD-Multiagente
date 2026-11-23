@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "61e1a2b6354795a121a10c78b3783e033150798633bcbfb937cedd3dc490ccfa",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"Carga instantánea de fichas en sala sin internet\",\"tipo\":\"funcional\"},{\"priorizado\":false,\"texto\":\"Actualización diaria de la colección\",\"tipo\":\"calidad\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 48,
+      "prompt_tokens": 289,
+      "total_tokens": 337,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 22.09
+  },
+  {
+    "firma": "e340fffcd62db0bb23c7acd478d314aa25b311e194635981fa4bd012f595b1ee",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Tableta\",\n      \"atributo\": \"Tiempo de carga\",\n      \"driver\": \"DRV-02\",\n      \"entorno\": \"Sala sin internet\",\n      \"estimulo\": \"Consulta de fichas\",\n      \"fuente\": \"Colección descargada\",\n      \"medida\": \"Tiempo de apertura\",\n      \"respuesta\": \"Menos de un segundo\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 115,
+      "prompt_tokens": 449,
+      "total_tokens": 564,
+      "prompt_tokens_details": {
+        "cached_tokens": 75
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 45.645
+  },
+  {
+    "firma": "46d3f64b6a7821f3c6520f3f96d6e5fe43af7f947f8e377fdc47c8d438acbf74",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar caché local agresiva con validación de integridad en segundo plano.\",\n  \"consecuencias\": \"Mejora la experiencia inmediata pero consume más almacenamiento local y riesgo de datos obsoletos.\",\n  \"contexto\": \"El visitante necesita acceso rápido a fichas en salas sin conectividad, mientras el curador mantiene la colección actualizada diariamente.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\"\n  ],\n  \"nuevos_elementos\": [\n    \"CacheLocal\",\n    \"ValidadorIntegridad\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Servir desde CacheLocal si disponible, validar contra ValidadorIntegridad en segundo plano usando la versión actualizada.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 199,
+      "prompt_tokens": 600,
+      "total_tokens": 799,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 73.769
+  },
+  {
+    "firma": "eb7a3c206b1d9dec6582bc9c11b3865505d83b17162d4b336ae766960362997d",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Servir fichas desde CacheLocal sin validación en segundo plano para garantizar latencia mínima absoluta.\",\n  \"consecuencias\": \"Eliminamos el riesgo de datos obsoletos pero aumentamos la probabilidad de mostrar información incorrecta si la colección local no se sincronizó.\",\n  \"contexto\": \"Prioridad absoluta a la experiencia del visitante en salas sin red, aceptando un riesgo controlado de datos desactualizados.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"ELM-03\",\n    \"ELM-04\"\n  ],\n  \"objetivo\": \"ELM-01\",\n  \"tactica\": \"Implementar un 'Modo Offline Agresivo' que deshabilita la validación de integridad en tiempo real, confiando en la sincronización previa.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 234,
+      "prompt_tokens": 843,
+      "total_tokens": 1077,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 98.563
+  },
+  {
+    "firma": "104ccd47f7775085ff39c6bea55581a84ee0425f11f00f4b15664cc0501e5cb3",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Solicitar fichas para sala sin red\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Validar integridad contra servidor\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Servir fichas desde caché local\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Recibir actualización diaria de colección\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Iniciar modo offline agresivo\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Sincronizar caché con servidor\",\n      \"origen\": \"ELM-01\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Detectar falta de conectividad\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Elegir estrategia de validación\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Ejecutar validación de integridad\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Servir fichas al visitante\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibir confirmación de descarga\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Sincronizar datos con curador\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Actualizar caché local\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Reiniciar validación para nueva sesión\",\n      \"origen\": \"ELM-01\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 668,
+      "prompt_tokens": 1102,
+      "total_tokens": 1770,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 273.307
+  }
+]

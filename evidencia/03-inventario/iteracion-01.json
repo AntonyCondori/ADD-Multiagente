@@ -1,0 +1,79 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Conservar 200 movimientos durante 8 horas ante interrupción de conexión.",
+      "tipo": "calidad",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": true,
+      "texto": "Sincronizar movimientos al recuperar conexión sin duplicar unidades.",
+      "tipo": "funcional",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Aplicación móvil",
+      "atributo": "Conservar movimientos",
+      "driver": "DRV-01",
+      "entorno": "Interrupción de conexión",
+      "estimulo": "Interrupción de conexión",
+      "fuente": "Sistema de registro",
+      "medida": "200 movimientos",
+      "respuesta": "Conservar movimientos durante 8 horas",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar cola de eventos asíncrona con límite de 200 items y reindexación diferida.",
+      "consecuencias": "Introduce latencia de 1-2s en escritura y riesgo de pérdida si el buffer se llena antes de la recuperación.",
+      "contexto": "El sistema actual usa transacciones síncronas que bloquean la UI; se necesita un patrón de almacenamiento por lotes para soportar interrupciones prolongadas.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Introducir un buffer de eventos de 200 items que se procesa en hilos de fondo; el reconciliador detecta la conexión y ejecuta merge único.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-01"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Buffer de eventos",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Reconciliador asíncrono",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

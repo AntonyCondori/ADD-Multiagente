@@ -1,0 +1,303 @@
+{
+  "casos": [
+    {
+      "caso": "01-biblioteca",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 735.105,
+      "correcciones": 0,
+      "tokens_entrada": 3902,
+      "tokens_salida": 1630,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        1,
+        1
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        12,
+        12
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "27f4687a1fdadb2e81483bdbc50a70c1b92715067a6578364987e4a022208699"
+    },
+    {
+      "caso": "02-reservas",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 575.505,
+      "correcciones": 0,
+      "tokens_entrada": 3399,
+      "tokens_salida": 1192,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        1,
+        1
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        6,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "7640eb4273c7a53a80f4d3e5efba2b5645fbad27085bec07d7de33921de3f8db"
+    },
+    {
+      "caso": "03-inventario",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 531.998,
+      "correcciones": 0,
+      "tokens_entrada": 3425,
+      "tokens_salida": 1102,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        2,
+        2
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        6,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "aea5daa9f65de21406d37de7c07554ba6fe1cafe9fb0937ec046d20ed6a7ab44"
+    },
+    {
+      "caso": "04-mensajeria",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 553.95,
+      "correcciones": 0,
+      "tokens_entrada": 3438,
+      "tokens_salida": 1096,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        2,
+        2
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        6,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "be7efc626a3629c0a990236c289f9df483366950825c55ad971205b6b9c05dd0"
+    },
+    {
+      "caso": "05-museo",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 520.931,
+      "correcciones": 0,
+      "tokens_entrada": 3283,
+      "tokens_salida": 1264,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        1,
+        1
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        6,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "4e23acef5370a3a1af5e4295c13433ef91fdc32bfc2ef4074a47279a363de3b9"
+    },
+    {
+      "caso": "06-taller",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 412.49,
+      "correcciones": 0,
+      "tokens_entrada": 3343,
+      "tokens_salida": 1010,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        2,
+        2
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        2,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "a3a852de9fee43258be47867165ac443ebc76a2c3099ea122d1eb1e4f40a3432"
+    },
+    {
+      "caso": "07-sensores",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 465.755,
+      "correcciones": 0,
+      "tokens_entrada": 3417,
+      "tokens_salida": 1040,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        1,
+        1
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        0,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "59a72f52106f3e26f123a7259792e2d7918abc81419cd08a9cd463fcb1fafd23"
+    },
+    {
+      "caso": "08-archivo",
+      "estado": "valido",
+      "error": null,
+      "modelo": "qwen3.5-4b-q4_K_M",
+      "segundos": 418.663,
+      "correcciones": 0,
+      "tokens_entrada": 3372,
+      "tokens_salida": 1053,
+      "validez_sintactica": [
+        2,
+        2
+      ],
+      "cobertura_drivers": [
+        1,
+        1
+      ],
+      "elementos_huerfanos": [
+        0,
+        4
+      ],
+      "completitud_escenarios": [
+        3,
+        6
+      ],
+      "precision": null,
+      "recall": null,
+      "rq2": "pendiente de referencia independiente",
+      "huella_registro": "e0c46076340e4921ca72904e912239fe1259929167a9f5bdb006fe3ef0ef6079"
+    }
+  ],
+  "agregado": {
+    "validez_sintactica": {
+      "casos_con_denominador": 8,
+      "numerador": 16,
+      "denominador": 16,
+      "media_por_caso": 1.0
+    },
+    "cobertura_drivers": {
+      "casos_con_denominador": 8,
+      "numerador": 11,
+      "denominador": 11,
+      "media_por_caso": 1.0
+    },
+    "elementos_huerfanos": {
+      "casos_con_denominador": 8,
+      "numerador": 0,
+      "denominador": 32,
+      "media_por_caso": 0.0
+    },
+    "completitud_escenarios": {
+      "casos_con_denominador": 8,
+      "numerador": 41,
+      "denominador": 54,
+      "media_por_caso": 0.7291666666666666
+    },
+    "precision": {
+      "casos_con_denominador": 0,
+      "numerador": 0,
+      "denominador": 0,
+      "media_por_caso": null
+    },
+    "recall": {
+      "casos_con_denominador": 0,
+      "numerador": 0,
+      "denominador": 0,
+      "media_por_caso": null
+    },
+    "segundos": {
+      "casos": 8,
+      "total": 4214.397,
+      "media": 526.799625
+    },
+    "correcciones": {
+      "casos": 8,
+      "total": 0,
+      "media": 0
+    },
+    "tokens_entrada": {
+      "casos": 8,
+      "total": 27579,
+      "media": 3447.375
+    },
+    "tokens_salida": {
+      "casos": 8,
+      "total": 9387,
+      "media": 1173.375
+    }
+  },
+  "evaluacion_semantica": {}
+}

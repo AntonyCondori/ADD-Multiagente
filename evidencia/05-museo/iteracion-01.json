@@ -1,0 +1,78 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Carga instantánea de fichas en sala sin internet",
+      "tipo": "funcional",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": false,
+      "texto": "Actualización diaria de la colección",
+      "tipo": "calidad",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Tableta",
+      "atributo": "Tiempo de carga",
+      "driver": "DRV-02",
+      "entorno": "Sala sin internet",
+      "estimulo": "Consulta de fichas",
+      "fuente": "Colección descargada",
+      "medida": "Tiempo de apertura",
+      "respuesta": "Menos de un segundo",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar caché local agresiva con validación de integridad en segundo plano.",
+      "consecuencias": "Mejora la experiencia inmediata pero consume más almacenamiento local y riesgo de datos obsoletos.",
+      "contexto": "El visitante necesita acceso rápido a fichas en salas sin conectividad, mientras el curador mantiene la colección actualizada diariamente.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Servir desde CacheLocal si disponible, validar contra ValidadorIntegridad en segundo plano usando la versión actualizada.",
+      "drivers_directos": [
+        "DRV-01"
+      ],
+      "id": "DEC-01"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "CacheLocal",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "ValidadorIntegridad",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

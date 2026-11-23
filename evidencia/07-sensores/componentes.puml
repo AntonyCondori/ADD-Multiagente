@@ -1,0 +1,12 @@
+@startuml
+component "Módulo de notificación" as ELM_01
+component "Canal Push" as ELM_02
+component "ELM-03: Motor de Procesamiento" as ELM_03
+component "ELM-04: Canal Push" as ELM_04
+ELM_02 -> ELM_01 : Iniciar flujo de detección de temperatura
+ELM_03 -> ELM_02 : Recibir datos de sensores
+ELM_04 -> ELM_03 : Procesar lectura y verificar umbral
+ELM_03 -> ELM_04 : Enviar notificación push si se cumple condición
+ELM_02 -> ELM_03 : se descompone en
+ELM_02 -> ELM_04 : se descompone en
+@enduml

@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "61f8e50bb6223da5407f08f0c8188cdcc1a8283ff94b9ca2067750555dee7d7a",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"Conservar 200 movimientos durante 8 horas ante interrupción de conexión.\",\"tipo\":\"calidad\"},{\"priorizado\":true,\"texto\":\"Sincronizar movimientos al recuperar conexión sin duplicar unidades.\",\"tipo\":\"funcional\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 60,
+      "prompt_tokens": 284,
+      "total_tokens": 344,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 34.259
+  },
+  {
+    "firma": "136bf1c763fbaa8b2c9ef0d5a77765c46226ce1a77255bcef53b5b3a8d23c268",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Aplicación móvil\",\n      \"atributo\": \"Conservar movimientos\",\n      \"driver\": \"DRV-01\",\n      \"entorno\": \"Interrupción de conexión\",\n      \"estimulo\": \"Interrupción de conexión\",\n      \"fuente\": \"Sistema de registro\",\n      \"medida\": \"200 movimientos\",\n      \"respuesta\": \"Conservar movimientos durante 8 horas\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 123,
+      "prompt_tokens": 456,
+      "total_tokens": 579,
+      "prompt_tokens_details": {
+        "cached_tokens": 452
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 36.069
+  },
+  {
+    "firma": "2a9433d312dac41ffbb14a4edfef422695f83627fb647f6ce70621d35fffccd7",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar cola de eventos asíncrona con límite de 200 items y reindexación diferida.\",\n  \"consecuencias\": \"Introduce latencia de 1-2s en escritura y riesgo de pérdida si el buffer se llena antes de la recuperación.\",\n  \"contexto\": \"El sistema actual usa transacciones síncronas que bloquean la UI; se necesita un patrón de almacenamiento por lotes para soportar interrupciones prolongadas.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Buffer de eventos\",\n    \"Reconciliador asíncrono\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Introducir un buffer de eventos de 200 items que se procesa en hilos de fondo; el reconciliador detecta la conexión y ejecuta merge único.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 244,
+      "prompt_tokens": 620,
+      "total_tokens": 864,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 86.939
+  },
+  {
+    "firma": "b5e3c89a9a0a9fa9d266726415c5b774b6eac73cfd88b6fff324b251b123941d",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Introducir un patrón de 'Write-Ahead Log' (WAL) en el ELM Buffer para garantizar durabilidad antes de la escritura final.\",\n  \"consecuencias\": \"Incrementa el consumo de disco en lectura/escritura y añade complejidad de gestión de logs.\",\n  \"contexto\": \"El ELM Buffer actual permite acumular datos pero no garantiza que los movimientos sobrevivan si el disco falla antes de la escritura persistente.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Log de eventos\",\n    \"Checkpoint de disco\"\n  ],\n  \"objetivo\": \"ELM-01\",\n  \"tactica\": \"Escribir cada movimiento en un archivo de log antes de insertarlo en el buffer; el Reconciliador lee el log para reconstruir el estado si el buffer se corrompe.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 240,
+      "prompt_tokens": 900,
+      "total_tokens": 1140,
+      "prompt_tokens_details": {
+        "cached_tokens": 375
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 139.384
+  },
+  {
+    "firma": "7aa02dc1c0a3aa91b9cf6d085d3829a99f27438e083cae2c3aa5d3b7118dd259",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibe eventos de la aplicación móvil para su almacenamiento temporal.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Procesa eventos del buffer y detecta la recuperación de conexión.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Escribe movimientos en el log antes de la persistencia final.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Valida y asegura la integridad del estado en el disco.\",\n      \"origen\": \"ELM-01\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Inicia recepción de eventos tras interrupción de conexión.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Acepta eventos en el buffer hasta alcanzar el límite de 200 items.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Comienza a escribir en el WAL cuando se detecta la conexión.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Realiza merge único y persistencia final de los movimientos.\",\n      \"origen\": \"ELM-03\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 435,
+      "prompt_tokens": 1165,
+      "total_tokens": 1600,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 228.709
+  }
+]

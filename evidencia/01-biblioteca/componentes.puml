@@ -1,0 +1,12 @@
+@startuml
+component "Motor de búsqueda híbrido" as ELM_01
+component "Sincronizador de índices" as ELM_02
+component "ELM-03" as ELM_03
+component "ELM-04" as ELM_04
+ELM_02 -> ELM_01 : Requiere motor híbrido para escalar búsquedas bajo carga concurrente.
+ELM_02 -> ELM_01 : Necesita sincronización de datos para mantener consistencia del índice inverso.
+ELM_04 -> ELM_03 : Implementa lógica de precalculación de rutas de descubrimiento.
+ELM_03 -> ELM_04 : Procesa grafo de co-ocurrencia para sugerir contenido relevante.
+ELM_01 -> ELM_03 : se descompone en
+ELM_01 -> ELM_04 : se descompone en
+@enduml

@@ -1,0 +1,10 @@
+﻿origen,relacion,destino
+DEC-01,implementada_en,ELM-01
+DEC-01,implementada_en,ELM-02
+DEC-02,implementada_en,ELM-03
+DEC-02,implementada_en,ELM-04
+DRV-01,formaliza_en,ESC-01
+DRV-01,motiva,DEC-01
+DRV-01,motiva,DEC-02
+ESC-01,justifica,DEC-01
+ESC-01,justifica,DEC-02

@@ -1,0 +1,11 @@
+@startuml
+participant "Módulo de notificación" as ELM_01
+participant "Canal Push" as ELM_02
+participant "ELM-03: Motor de Procesamiento" as ELM_03
+participant "ELM-04: Canal Push" as ELM_04
+ELM_02 -> ELM_03 : Recibir lectura de temperatura de sensores
+ELM_03 -> ELM_03 : Comparar valor con umbral configurado
+ELM_03 -> ELM_04 : Activar canal Push para notificación
+ELM_04 -> ELM_01 : Confirmar recepción de alerta en operario
+ELM_03 -> ELM_02 : Registrar lectura en historial
+@enduml

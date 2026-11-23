@@ -1,0 +1,123 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Entregar avisos al 95% de destinatarios en un minuto.",
+      "tipo": "calidad",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": true,
+      "texto": "Pausar envío si el proveedor de correo está fuera de servicio.",
+      "tipo": "restriccion",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Sistema de gestión académica",
+      "atributo": "Tiempo de entrega",
+      "driver": "DRV-01",
+      "entorno": "Horario de clases",
+      "estimulo": "Publicación de aviso",
+      "fuente": "Docente",
+      "medida": "Porcentaje de destinatarios notificados",
+      "respuesta": "Entregar aviso al 95% de destinatarios en un minuto",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar cola de mensajes asíncrona con reintentos exponenciales.",
+      "consecuencias": "Mejora la calidad de entrega sin sacrificar la restricción de pausa ante fallos.",
+      "contexto": "El sistema actual procesa avisos síncronamente, lo que bloquea la entrega si el proveedor falla y impide cumplir el 95% en 60s.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Desacoplar la publicación del envío mediante una cola asíncrona que permite reintentos automáticos tras fallos transitorios.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-01"
+    },
+    {
+      "alternativa": "Integrar un motor de reintentos exponencial dentro de la cola asíncrona.",
+      "consecuencias": "Aumenta la resiliencia ante fallos transitorios sin comprometer la pausa ante caídas permanentes.",
+      "contexto": "La cola actual permite el desacoplamiento pero carece de lógica interna para gestionar automáticamente los fallos temporales del proveedor.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Implementar un algoritmo de reintentos que incrementa el tiempo de espera tras cada fallo transitorio, deteniéndose si el proveedor permanece inactivo.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-02"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Cola de mensajes",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Motor de reintentos",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-03",
+      "nombre": "Lógica de backoff exponencial",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    },
+    {
+      "id": "ELM-04",
+      "nombre": "Monitor de estado del proveedor",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    },
+    {
+      "numero": 2,
+      "objetivo": "ELM-01",
+      "decision": "DEC-02",
+      "creados": [
+        "ELM-03",
+        "ELM-04"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

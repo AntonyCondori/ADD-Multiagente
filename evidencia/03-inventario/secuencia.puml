@@ -1,0 +1,10 @@
+@startuml
+participant "Buffer de eventos" as ELM_01
+participant "Reconciliador asíncrono" as ELM_02
+participant "Log de eventos" as ELM_03
+participant "Checkpoint de disco" as ELM_04
+ELM_02 -> ELM_01 : Inicia recepción de eventos tras interrupción de conexión.
+ELM_01 -> ELM_02 : Acepta eventos en el buffer hasta alcanzar el límite de 200 items.
+ELM_02 -> ELM_03 : Comienza a escribir en el WAL cuando se detecta la conexión.
+ELM_03 -> ELM_04 : Realiza merge único y persistencia final de los movimientos.
+@enduml

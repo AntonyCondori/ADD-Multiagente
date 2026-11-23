@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "6754f43ef95ea6d3b7d94375c09089b7e99f5a99621cdc4339d08fd2c4591c34",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"Entregar avisos al 95% de destinatarios en un minuto.\",\"tipo\":\"calidad\"},{\"priorizado\":true,\"texto\":\"Pausar envío si el proveedor de correo está fuera de servicio.\",\"tipo\":\"restriccion\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 61,
+      "prompt_tokens": 296,
+      "total_tokens": 357,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 44.661
+  },
+  {
+    "firma": "41bdc2703b5b00d5542c83fd81d00e20ca51ef4be1910fab1bbaab62927ff74d",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Sistema de gestión académica\",\n      \"atributo\": \"Tiempo de entrega\",\n      \"driver\": \"DRV-01\",\n      \"entorno\": \"Horario de clases\",\n      \"estimulo\": \"Publicación de aviso\",\n      \"fuente\": \"Docente\",\n      \"medida\": \"Porcentaje de destinatarios notificados\",\n      \"respuesta\": \"Entregar aviso al 95% de destinatarios en un minuto\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 128,
+      "prompt_tokens": 469,
+      "total_tokens": 597,
+      "prompt_tokens_details": {
+        "cached_tokens": 75
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 57.174
+  },
+  {
+    "firma": "9d7e4316b2b43ec81ac063cef92e2ebefa652cfa039f711f3ce3beae06a76897",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar cola de mensajes asíncrona con reintentos exponenciales.\",\n  \"consecuencias\": \"Mejora la calidad de entrega sin sacrificar la restricción de pausa ante fallos.\",\n  \"contexto\": \"El sistema actual procesa avisos síncronamente, lo que bloquea la entrega si el proveedor falla y impide cumplir el 95% en 60s.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Cola de mensajes\",\n    \"Motor de reintentos\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Desacoplar la publicación del envío mediante una cola asíncrona que permite reintentos automáticos tras fallos transitorios.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 219,
+      "prompt_tokens": 638,
+      "total_tokens": 857,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 125.314
+  },
+  {
+    "firma": "7c3abdb4f3068e490f24953b473e6bd0d9c3509a49f84d7aecdaa8a4099f14f5",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Integrar un motor de reintentos exponencial dentro de la cola asíncrona.\",\n  \"consecuencias\": \"Aumenta la resiliencia ante fallos transitorios sin comprometer la pausa ante caídas permanentes.\",\n  \"contexto\": \"La cola actual permite el desacoplamiento pero carece de lógica interna para gestionar automáticamente los fallos temporales del proveedor.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Lógica de backoff exponencial\",\n    \"Monitor de estado del proveedor\"\n  ],\n  \"objetivo\": \"ELM-01\",\n  \"tactica\": \"Implementar un algoritmo de reintentos que incrementa el tiempo de espera tras cada fallo transitorio, deteniéndose si el proveedor permanece inactivo.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 224,
+      "prompt_tokens": 893,
+      "total_tokens": 1117,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 85.728
+  },
+  {
+    "firma": "4cae8064b0a0e9306bcffd39ad7265b4a830f42696844e51daafa9600a3a5522",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Iniciar cola asíncrona para desacoplar publicación del envío.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Validar estado del proveedor antes de procesar reintentos.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Activar lógica de backoff tras fallo transitorio.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Actualizar monitor de estado tras fallo detectado.\",\n      \"origen\": \"ELM-02\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibir aviso del docente y almacenar en cola.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Consultar monitor de estado del proveedor.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Calcular tiempo de espera basado en fallos previos.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Procesar envío si proveedor está disponible.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Registrar fallo transitorio y pausar envío.\",\n      \"origen\": \"ELM-01\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 464,
+      "prompt_tokens": 1142,
+      "total_tokens": 1606,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 235.336
+  }
+]

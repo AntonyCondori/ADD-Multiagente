@@ -1,0 +1,119 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Búsqueda por fecha en menos de tres segundos para el percentil 95 con cincuenta usuarios simultáneos.",
+      "tipo": "calidad",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": false,
+      "texto": "Mostrar corrección de metadatos en los resultados en máximo dos minutos.",
+      "tipo": "restriccion",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Sin especificar",
+      "atributo": "Sin especificar",
+      "driver": "DRV-01",
+      "entorno": "Sin especificar",
+      "estimulo": "Búsqueda por fecha",
+      "fuente": "Cincuenta usuarios simultáneos",
+      "medida": "Sin especificar",
+      "respuesta": "Percentil 95 inferior a tres segundos",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar un motor de búsqueda híbrido con pre-calculación de índices temporales.",
+      "consecuencias": "Mejora la latencia inicial pero incrementa el consumo de recursos de almacenamiento y mantenimiento.",
+      "contexto": "El sistema actual depende de búsquedas en tiempo real sobre metadatos no estructurados, causando tiempos de respuesta superiores al límite de tres segundos bajo carga.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01"
+      ],
+      "tactica": "Migrar la lógica de búsqueda de fecha a un índice pre-calculado en lugar de consultas en tiempo real.",
+      "drivers_directos": [
+        "DRV-01"
+      ],
+      "id": "DEC-01"
+    },
+    {
+      "alternativa": "Implementar un motor de búsqueda híbrido con pre-calculación de índices temporales.",
+      "consecuencias": "Mejora la latencia inicial pero incrementa el consumo de recursos de almacenamiento y mantenimiento.",
+      "contexto": "El sistema actual depende de búsquedas en tiempo real sobre metadatos no estructurados, causando tiempos de respuesta superiores al límite de tres segundos bajo carga.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01"
+      ],
+      "tactica": "Integrar un pipeline de actualización asíncrona para sincronizar correcciones de metadatos con el índice pre-calculado.",
+      "drivers_directos": [
+        "DRV-01"
+      ],
+      "id": "DEC-02"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Pre-calculo de índices",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Cache temporal de resultados",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-03",
+      "nombre": "ELM-03",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    },
+    {
+      "id": "ELM-04",
+      "nombre": "ELM-04",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    },
+    {
+      "numero": 2,
+      "objetivo": "ELM-01",
+      "decision": "DEC-02",
+      "creados": [
+        "ELM-03",
+        "ELM-04"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

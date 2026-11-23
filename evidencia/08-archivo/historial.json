@@ -1,0 +1,32 @@
+[
+  {
+    "etapa": 1,
+    "rol": "analista",
+    "intento": 1,
+    "estado": "aceptado"
+  },
+  {
+    "etapa": 2,
+    "rol": "calidad",
+    "intento": 1,
+    "estado": "aceptado"
+  },
+  {
+    "etapa": 3,
+    "rol": "decisiones",
+    "intento": 1,
+    "estado": "aceptado"
+  },
+  {
+    "etapa": 4,
+    "rol": "decisiones",
+    "intento": 1,
+    "estado": "aceptado"
+  },
+  {
+    "etapa": 5,
+    "rol": "arquitecto",
+    "intento": 1,
+    "estado": "aceptado"
+  }
+]

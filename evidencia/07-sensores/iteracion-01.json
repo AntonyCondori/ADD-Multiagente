@@ -1,0 +1,84 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Mostrar alerta en menos de tres segundos",
+      "tipo": "funcional",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": false,
+      "texto": "Conservar historial de lecturas durante treinta días",
+      "tipo": "calidad",
+      "id": "DRV-02"
+    },
+    {
+      "priorizado": false,
+      "texto": "Detectar temperatura por encima del umbral",
+      "tipo": "funcional",
+      "id": "DRV-03"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Sin especificar",
+      "atributo": "Sin especificar",
+      "driver": "DRV-02",
+      "entorno": "Sin especificar",
+      "estimulo": "Sin especificar",
+      "fuente": "Sin especificar",
+      "medida": "Sin especificar",
+      "respuesta": "Sin especificar",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar notificación push en lugar de alerta visual en pantalla.",
+      "consecuencias": "Reduce latencia percibida pero elimina la necesidad de monitoreo visual continuo.",
+      "contexto": "El sistema actual muestra alertas visuales; se prioriza reducir el tiempo de detección para DRV-01.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Descomponer el sistema en 'Motor de Lectura' y 'Capa de Alerta', delegando la notificación al nuevo módulo para reducir carga en la capa visual.",
+      "drivers_directos": [
+        "DRV-01"
+      ],
+      "id": "DEC-01"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Módulo de notificación",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Canal Push",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

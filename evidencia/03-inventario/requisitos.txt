@@ -1,0 +1,1 @@
+Un encargado registra entradas y salidas de materiales por almacén. Cuando se interrumpe la conexión, la aplicación móvil debe conservar hasta 200 movimientos durante ocho horas. Al recuperar la conexión debe sincronizarlos sin duplicar unidades.

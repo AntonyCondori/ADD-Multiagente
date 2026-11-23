@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "43b1f4cff160326810bfbbf5d6d6fc2ff88dffb696315affd8ba8af3f25abec4",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"Confirmar una sola reserva cuando dos alumnos solicitan la última sala simultáneamente.\",\"tipo\":\"funcional\"},{\"priorizado\":false,\"texto\":\"Consultar el historial de confirmaciones para la coordinación de la biblioteca.\",\"tipo\":\"calidad\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 61,
+      "prompt_tokens": 288,
+      "total_tokens": 349,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 37.36
+  },
+  {
+    "firma": "d76559471a8c55f1ef6ca54412a474538a8e3f013f9d14786b750ff394359d88",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Sistema de reservas\",\n      \"atributo\": \"Consistencia de datos\",\n      \"driver\": \"DRV-02\",\n      \"entorno\": \"Dos alumnos solicitan la última sala simultáneamente\",\n      \"estimulo\": \"Solicitud de reserva de dos alumnos para la misma franja\",\n      \"fuente\": \"Base de datos de reservas\",\n      \"medida\": \"Número de reservas confirmadas\",\n      \"respuesta\": \"Confirmar exactamente una reserva\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 132,
+      "prompt_tokens": 461,
+      "total_tokens": 593,
+      "prompt_tokens_details": {
+        "cached_tokens": 457
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 38.672
+  },
+  {
+    "firma": "8113eb94209747226391e204d632c4e53a21613e4086c534d131eb076e3f6e03",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar un bloqueador de fila (lock) exclusivo en la base de datos al inicio de la transacción de reserva.\",\n  \"consecuencias\": \"Aumenta la latencia inicial de la solicitud pero garantiza la integridad de los datos sin depender de lógica compleja en la aplicación.\",\n  \"contexto\": \"El sistema actual permite que dos solicitudes concurrentes para la última sala se procesen secuencialmente sin coordinación, generando dos confirmaciones.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\"\n  ],\n  \"nuevos_elementos\": [\n    \"Bloqueador de fila (Lock)\",\n    \"Transacción atómica\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Usar un bloqueador de fila exclusivo para asegurar que solo una transacción pueda modificar el estado de la sala disponible.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 218,
+      "prompt_tokens": 629,
+      "total_tokens": 847,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 103.295
+  },
+  {
+    "firma": "432564b797703b1fdae8b81018fea325a5f57f7a838a6c6c38f00381e2e21425",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar un algoritmo de optimismo con versiones en la base de datos.\",\n  \"consecuencias\": \"Reduce la latencia inicial eliminando bloqueos, pero aumenta la carga de procesamiento por conflictos y requiere lógica de recuperación.\",\n  \"contexto\": \"El bloqueador exclusivo actual impide que dos solicitudes concurrentes para la última sala se procesen secuencialmente sin coordinación, generando dos confirmaciones.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Versión de registro (Version)\",\n    \"Detector de conflicto (ConflictDetector)\"\n  ],\n  \"objetivo\": \"ELM-01\",\n  \"tactica\": \"Usar versiones de registro para permitir procesamiento paralelo y revertir transacciones en caso de conflicto.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 215,
+      "prompt_tokens": 891,
+      "total_tokens": 1106,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 124.73
+  },
+  {
+    "firma": "db77ee0b5a87f4a11a2009c355062417e5a3df56172b784c9ff73d5ab9099285",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Iniciar bloqueo exclusivo para garantizar integridad de datos.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Ejecutar transacción atómica bajo control del bloqueador.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Asignar versión de registro para optimismo concurrente.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Detectar conflicto entre versiones y revertir transacción.\",\n      \"origen\": \"ELM-03\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibir solicitud de reserva y verificar disponibilidad.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Aplicar bloqueador exclusivo antes de modificar estado.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Ejecutar lógica de reserva dentro de la transacción.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Generar versión única para el registro de la reserva.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Validar que la versión no esté en conflicto con otras.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Confirmar reserva si no hay conflictos detectados.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Liberar bloqueador exclusivo al finalizar transacción.\",\n      \"origen\": \"ELM-02\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 566,
+      "prompt_tokens": 1130,
+      "total_tokens": 1696,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 264.67
+  }
+]

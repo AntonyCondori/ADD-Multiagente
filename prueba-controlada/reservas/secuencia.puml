@@ -1,0 +1,13 @@
+@startuml
+participant "Bloqueador de fila (Lock)" as ELM_01
+participant "Transacción atómica" as ELM_02
+participant "Versión de registro (Version)" as ELM_03
+participant "Detector de conflicto (ConflictDetector)" as ELM_04
+ELM_02 -> ELM_01 : Recibir solicitud de reserva y verificar disponibilidad.
+ELM_02 -> ELM_01 : Aplicar bloqueador exclusivo antes de modificar estado.
+ELM_01 -> ELM_02 : Ejecutar lógica de reserva dentro de la transacción.
+ELM_02 -> ELM_03 : Generar versión única para el registro de la reserva.
+ELM_03 -> ELM_04 : Validar que la versión no esté en conflicto con otras.
+ELM_04 -> ELM_02 : Confirmar reserva si no hay conflictos detectados.
+ELM_02 -> ELM_01 : Liberar bloqueador exclusivo al finalizar transacción.
+@enduml

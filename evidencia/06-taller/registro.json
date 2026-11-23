@@ -1,0 +1,123 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "El sistema debe recuperar la disponibilidad de consultas en cinco minutos tras una interrupción del servidor.",
+      "tipo": "calidad",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": true,
+      "texto": "Las modificaciones a una orden deben conservar su autor y hora.",
+      "tipo": "restriccion",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Sin especificar",
+      "atributo": "Sin especificar",
+      "driver": "DRV-01",
+      "entorno": "Sin especificar",
+      "estimulo": "Interrupción del servidor principal durante la jornada",
+      "fuente": "Sin especificar",
+      "medida": "Sin especificar",
+      "respuesta": "Recuperación de la disponibilidad de consultas en cinco minutos",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar un clúster de servidores con failover automático y base de datos replicada en tiempo real.",
+      "consecuencias": "Aumenta la complejidad operativa y el costo inicial, pero garantiza la recuperación en 5 minutos.",
+      "contexto": "El sistema actual colapsa ante fallos de servidor, impidiendo consultas críticas.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Desplegar arquitectura de alta disponibilidad con replicación asíncrona para tolerancia a fallos.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-01"
+    },
+    {
+      "alternativa": "Implementar un clúster de servidores con failover automático y base de datos replicada en tiempo real.",
+      "consecuencias": "Aumenta la complejidad operativa y el costo inicial, pero garantiza la recuperación en 5 minutos.",
+      "contexto": "El sistema actual colapsa ante fallos de servidor, impidiendo consultas críticas.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Desplegar arquitectura de alta disponibilidad con replicación asíncrona para tolerancia a fallos.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-02"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Servidor Secundario",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Motor de Sincronización",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-03",
+      "nombre": "ELM-03: Controlador de Estado",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    },
+    {
+      "id": "ELM-04",
+      "nombre": "ELM-04: Replicador de Logs",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    },
+    {
+      "numero": 2,
+      "objetivo": "ELM-01",
+      "decision": "DEC-02",
+      "creados": [
+        "ELM-03",
+        "ELM-04"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

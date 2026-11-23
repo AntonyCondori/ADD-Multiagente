@@ -1,0 +1,9 @@
+﻿caso,estado,error,modelo,segundos,correcciones,tokens_entrada,tokens_salida,rq2,huella_registro,validez_sintactica_numerador,validez_sintactica_denominador,cobertura_drivers_numerador,cobertura_drivers_denominador,elementos_huerfanos_numerador,elementos_huerfanos_denominador,completitud_escenarios_numerador,completitud_escenarios_denominador,precision_numerador,precision_denominador,recall_numerador,recall_denominador
+01-biblioteca,valido,,qwen3.5-4b-q4_K_M,735.105,0,3902,1630,pendiente de referencia independiente,27f4687a1fdadb2e81483bdbc50a70c1b92715067a6578364987e4a022208699,2,2,1,1,0,4,12,12,,,,
+02-reservas,valido,,qwen3.5-4b-q4_K_M,575.505,0,3399,1192,pendiente de referencia independiente,7640eb4273c7a53a80f4d3e5efba2b5645fbad27085bec07d7de33921de3f8db,2,2,1,1,0,4,6,6,,,,
+03-inventario,valido,,qwen3.5-4b-q4_K_M,531.998,0,3425,1102,pendiente de referencia independiente,aea5daa9f65de21406d37de7c07554ba6fe1cafe9fb0937ec046d20ed6a7ab44,2,2,2,2,0,4,6,6,,,,
+04-mensajeria,valido,,qwen3.5-4b-q4_K_M,553.95,0,3438,1096,pendiente de referencia independiente,be7efc626a3629c0a990236c289f9df483366950825c55ad971205b6b9c05dd0,2,2,2,2,0,4,6,6,,,,
+05-museo,valido,,qwen3.5-4b-q4_K_M,520.931,0,3283,1264,pendiente de referencia independiente,4e23acef5370a3a1af5e4295c13433ef91fdc32bfc2ef4074a47279a363de3b9,2,2,1,1,0,4,6,6,,,,
+06-taller,valido,,qwen3.5-4b-q4_K_M,412.49,0,3343,1010,pendiente de referencia independiente,a3a852de9fee43258be47867165ac443ebc76a2c3099ea122d1eb1e4f40a3432,2,2,2,2,0,4,2,6,,,,
+07-sensores,valido,,qwen3.5-4b-q4_K_M,465.755,0,3417,1040,pendiente de referencia independiente,59a72f52106f3e26f123a7259792e2d7918abc81419cd08a9cd463fcb1fafd23,2,2,1,1,0,4,0,6,,,,
+08-archivo,valido,,qwen3.5-4b-q4_K_M,418.663,0,3372,1053,pendiente de referencia independiente,e0c46076340e4921ca72904e912239fe1259929167a9f5bdb006fe3ef0ef6079,2,2,1,1,0,4,3,6,,,,

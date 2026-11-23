@@ -1,0 +1,145 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Búsqueda de libros por título en el catálogo de la biblioteca.",
+      "tipo": "funcional",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": false,
+      "texto": "Mostrar resultados en menos de dos segundos en el percentil 95 con 100 consultas simultáneas.",
+      "tipo": "calidad",
+      "id": "DRV-02"
+    },
+    {
+      "priorizado": false,
+      "texto": "Resultados reutilizados con hasta 60 segundos de antigüedad.",
+      "tipo": "calidad",
+      "id": "DRV-03"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Catálogo de la biblioteca",
+      "atributo": "Tiempo de respuesta",
+      "driver": "DRV-02",
+      "entorno": "Durante la matrícula y con 100 consultas simultáneas",
+      "estimulo": "Búsqueda de libros por título",
+      "fuente": "Servicio de búsqueda",
+      "medida": "Tiempo en segundos",
+      "respuesta": "Menos de dos segundos en el percentil 95",
+      "id": "ESC-01"
+    },
+    {
+      "artefacto": "Catálogo de la biblioteca",
+      "atributo": "Antigüedad de resultados",
+      "driver": "DRV-03",
+      "entorno": "General",
+      "estimulo": "Consulta de resultados",
+      "fuente": "Sistema de caché",
+      "medida": "Tiempo en segundos",
+      "respuesta": "Hasta 60 segundos",
+      "id": "ESC-02"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar un motor de búsqueda híbrido que combine SQL con un índice inverso en Elasticsearch para acelerar búsquedas por título.",
+      "consecuencias": "Mejora la latencia inicial pero introduce complejidad en la sincronización de datos entre bases de datos.",
+      "contexto": "El sistema actual depende exclusivamente de consultas SQL complejas que no escalan bajo carga concurrente.",
+      "escenarios": [
+        "ESC-01",
+        "ESC-02"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02",
+        "DRV-03"
+      ],
+      "tactica": "Introducir un índice inverso externo para búsquedas de texto completo, delegando la lógica de validación de catálogo a la base de datos principal.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-01"
+    },
+    {
+      "alternativa": "Integrar un motor de recomendación basado en grafos de co-ocurrencia para sugerir libros relacionados.",
+      "consecuencias": "Aumenta la retención de usuarios pero incrementa el consumo de CPU en el procesamiento de grafos.",
+      "contexto": "El catálogo actual cumple con búsquedas exactas pero falla en descubrir contenido relevante por similitud temática.",
+      "escenarios": [
+        "ESC-01",
+        "ESC-02"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02",
+        "DRV-03"
+      ],
+      "tactica": "Implementar un algoritmo de PageRank simplificado sobre el grafo de libros para precalcular rutas de descubrimiento.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02",
+        "DRV-03"
+      ],
+      "id": "DEC-02"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "Motor de búsqueda híbrido",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "Sincronizador de índices",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-03",
+      "nombre": "ELM-03",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    },
+    {
+      "id": "ELM-04",
+      "nombre": "ELM-04",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    },
+    {
+      "numero": 2,
+      "objetivo": "ELM-01",
+      "decision": "DEC-02",
+      "creados": [
+        "ELM-03",
+        "ELM-04"
+      ],
+      "reutilizados": []
+    }
+  ]
+}

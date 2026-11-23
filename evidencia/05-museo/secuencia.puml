@@ -1,0 +1,14 @@
+@startuml
+participant "CacheLocal" as ELM_01
+participant "ValidadorIntegridad" as ELM_02
+participant "ELM-03" as ELM_03
+participant "ELM-04" as ELM_04
+ELM_01 -> ELM_03 : Detectar falta de conectividad
+ELM_03 -> ELM_01 : Elegir estrategia de validación
+ELM_01 -> ELM_02 : Ejecutar validación de integridad
+ELM_02 -> ELM_01 : Servir fichas al visitante
+ELM_04 -> ELM_01 : Recibir confirmación de descarga
+ELM_01 -> ELM_02 : Sincronizar datos con curador
+ELM_02 -> ELM_01 : Actualizar caché local
+ELM_01 -> ELM_03 : Reiniciar validación para nueva sesión
+@enduml

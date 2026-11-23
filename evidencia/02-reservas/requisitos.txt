@@ -1,0 +1,1 @@
+Los alumnos reservan una sala de estudio por franja horaria. Si dos alumnos solicitan la última sala para la misma franja al mismo tiempo, el sistema debe confirmar exactamente una reserva. La coordinación de la biblioteca necesita consultar el historial de confirmaciones.

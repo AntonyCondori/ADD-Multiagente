@@ -1,0 +1,10 @@
+@startuml
+participant "Servidor Secundario" as ELM_01
+participant "Motor de Sincronización" as ELM_02
+participant "ELM-03: Controlador de Estado" as ELM_03
+participant "ELM-04: Replicador de Logs" as ELM_04
+ELM_02 -> ELM_01 : Detectar interrupción del servidor principal.
+ELM_01 -> ELM_02 : Activar failover automático.
+ELM_04 -> ELM_03 : Recuperar datos críticos para consultas.
+ELM_03 -> ELM_04 : Confirmar disponibilidad en cinco minutos.
+@enduml

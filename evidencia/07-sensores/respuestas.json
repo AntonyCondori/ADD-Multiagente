@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "f1a26bcd165cd05137d3091dd428b99412362499b8869cf3e2249731fba81923",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"Mostrar alerta en menos de tres segundos\",\"tipo\":\"funcional\"},{\"priorizado\":false,\"texto\":\"Conservar historial de lecturas durante treinta días\",\"tipo\":\"calidad\"},{\"priorizado\":false,\"texto\":\"Detectar temperatura por encima del umbral\",\"tipo\":\"funcional\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 71,
+      "prompt_tokens": 296,
+      "total_tokens": 367,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 29.978
+  },
+  {
+    "firma": "8b2122f73438d6ac35f388412e0bf6ee338348c166781b4efae48fb24c098e32",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Sin especificar\",\n      \"atributo\": \"Sin especificar\",\n      \"driver\": \"DRV-02\",\n      \"entorno\": \"Sin especificar\",\n      \"estimulo\": \"Sin especificar\",\n      \"fuente\": \"Sin especificar\",\n      \"medida\": \"Sin especificar\",\n      \"respuesta\": \"Sin especificar\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 108,
+      "prompt_tokens": 486,
+      "total_tokens": 594,
+      "prompt_tokens_details": {
+        "cached_tokens": 75
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 53.013
+  },
+  {
+    "firma": "0ba2f44b8d705888594b0895c6206b29725ee5f9c131294b0a5958c25b85ae4d",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar notificación push en lugar de alerta visual en pantalla.\",\n  \"consecuencias\": \"Reduce latencia percibida pero elimina la necesidad de monitoreo visual continuo.\",\n  \"contexto\": \"El sistema actual muestra alertas visuales; se prioriza reducir el tiempo de detección para DRV-01.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\"\n  ],\n  \"nuevos_elementos\": [\n    \"Módulo de notificación\",\n    \"Canal Push\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Descomponer el sistema en 'Motor de Lectura' y 'Capa de Alerta', delegando la notificación al nuevo módulo para reducir carga en la capa visual.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 202,
+      "prompt_tokens": 635,
+      "total_tokens": 837,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 100.203
+  },
+  {
+    "firma": "6195fb0c811a1e263b2af685f9a8e0f27a0f48de2197839060a8832883f9f310",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar notificación push en lugar de alerta visual en pantalla.\",\n  \"consecuencias\": \"Reduce latencia percibida pero elimina la necesidad de monitoreo visual continuo.\",\n  \"contexto\": \"El sistema actual muestra alertas visuales; se prioriza reducir el tiempo de detección para DRV-01.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"ELM-03: Motor de Procesamiento\",\n    \"ELM-04: Canal Push\"\n  ],\n  \"objetivo\": \"ELM-02\",\n  \"tactica\": \"Refinar ELM-02 agregando ELM-03 para filtrar datos antes de notificar, permitiendo ELM-04 como canal alternativo.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 218,
+      "prompt_tokens": 881,
+      "total_tokens": 1099,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 103.978
+  },
+  {
+    "firma": "a4484bcd8f54af1d6b51028fb90dea95f2a72173c7a18fd859e72e7e487ca9bc",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Iniciar flujo de detección de temperatura\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Recibir datos de sensores\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Procesar lectura y verificar umbral\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Enviar notificación push si se cumple condición\",\n      \"origen\": \"ELM-03\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Recibir lectura de temperatura de sensores\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Comparar valor con umbral configurado\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Activar canal Push para notificación\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Confirmar recepción de alerta en operario\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Registrar lectura en historial\",\n      \"origen\": \"ELM-03\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 441,
+      "prompt_tokens": 1119,
+      "total_tokens": 1560,
+      "prompt_tokens_details": {
+        "cached_tokens": 85
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 172.666
+  }
+]

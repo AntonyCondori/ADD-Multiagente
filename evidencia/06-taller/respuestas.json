@@ -1,0 +1,82 @@
+[
+  {
+    "firma": "d285b96ff383fe5beb0d0c0f295a35a5cf11465c1472355c2907154ab9ddd0b9",
+    "rol": "analista",
+    "respuesta": "{\"drivers\":[{\"priorizado\":true,\"texto\":\"El sistema debe recuperar la disponibilidad de consultas en cinco minutos tras una interrupción del servidor.\",\"tipo\":\"calidad\"},{\"priorizado\":true,\"texto\":\"Las modificaciones a una orden deben conservar su autor y hora.\",\"tipo\":\"restriccion\"}]}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 61,
+      "prompt_tokens": 288,
+      "total_tokens": 349,
+      "prompt_tokens_details": {
+        "cached_tokens": 78
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 20.654
+  },
+  {
+    "firma": "e20c3897f1ed0b585fba678b56885042e9c7ed8fb649db826c3ae6e7c8cd4a6b",
+    "rol": "calidad",
+    "respuesta": "{\n  \"escenarios\": [\n    {\n      \"artefacto\": \"Sin especificar\",\n      \"atributo\": \"Sin especificar\",\n      \"driver\": \"DRV-01\",\n      \"entorno\": \"Sin especificar\",\n      \"estimulo\": \"Interrupción del servidor principal durante la jornada\",\n      \"fuente\": \"Sin especificar\",\n      \"medida\": \"Sin especificar\",\n      \"respuesta\": \"Recuperación de la disponibilidad de consultas en cinco minutos\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 123,
+      "prompt_tokens": 461,
+      "total_tokens": 584,
+      "prompt_tokens_details": {
+        "cached_tokens": 75
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 81.068
+  },
+  {
+    "firma": "06bec90df7727b03ee02f22b90dd27f4dfc50debc5189f3e86fe928a90edab86",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar un clúster de servidores con failover automático y base de datos replicada en tiempo real.\",\n  \"consecuencias\": \"Aumenta la complejidad operativa y el costo inicial, pero garantiza la recuperación en 5 minutos.\",\n  \"contexto\": \"El sistema actual colapsa ante fallos de servidor, impidiendo consultas críticas.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"Servidor Secundario\",\n    \"Motor de Sincronización\"\n  ],\n  \"objetivo\": \"SISTEMA\",\n  \"tactica\": \"Desplegar arquitectura de alta disponibilidad con replicación asíncrona para tolerancia a fallos.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 203,
+      "prompt_tokens": 625,
+      "total_tokens": 828,
+      "prompt_tokens_details": {
+        "cached_tokens": 123
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 68.475
+  },
+  {
+    "firma": "79bb913005b7b2faf883266101196b999c983756638215e967c9422aa412617a",
+    "rol": "decisiones",
+    "respuesta": "{\n  \"alternativa\": \"Implementar un clúster de servidores con failover automático y base de datos replicada en tiempo real.\",\n  \"consecuencias\": \"Aumenta la complejidad operativa y el costo inicial, pero garantiza la recuperación en 5 minutos.\",\n  \"contexto\": \"El sistema actual colapsa ante fallos de servidor, impidiendo consultas críticas.\",\n  \"escenarios\": [\n    \"ESC-01\"\n  ],\n  \"motivada_por\": [\n    \"DRV-01\",\n    \"DRV-02\"\n  ],\n  \"nuevos_elementos\": [\n    \"ELM-03: Controlador de Estado\",\n    \"ELM-04: Replicador de Logs\"\n  ],\n  \"objetivo\": \"ELM-01\",\n  \"tactica\": \"Desplegar arquitectura de alta disponibilidad con replicación asíncrona para tolerancia a fallos.\"\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 216,
+      "prompt_tokens": 864,
+      "total_tokens": 1080,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 67.357
+  },
+  {
+    "firma": "d096e1a62672174500ea0bb80a931190bdd3d3123d61f5da82f92f41a9000be4",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Iniciar clúster de alta disponibilidad para tolerancia a fallos.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Sincronizar estado del servidor principal ante interrupción.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Validar autoría y hora de la modificación de orden.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Replicar logs de auditoría en tiempo real.\",\n      \"origen\": \"ELM-01\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Detectar interrupción del servidor principal.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Activar failover automático.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Recuperar datos críticos para consultas.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Confirmar disponibilidad en cinco minutos.\",\n      \"origen\": \"ELM-03\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 407,
+      "prompt_tokens": 1105,
+      "total_tokens": 1512,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 168.134
+  }
+]

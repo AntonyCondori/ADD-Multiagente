@@ -1,0 +1,50 @@
+{
+  "01-biblioteca": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "02-reservas": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "03-inventario": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "04-mensajeria": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "05-museo": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "06-taller": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "07-sensores": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  },
+  "08-archivo": {
+    "estado_original": "valido",
+    "estado_reproducido": "valido",
+    "coinciden_registro_historial_y_metricas": true,
+    "coinciden_modelos_y_matriz": true
+  }
+}

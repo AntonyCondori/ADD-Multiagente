@@ -1,0 +1,11 @@
+@startuml
+participant "Cola de mensajes" as ELM_01
+participant "Motor de reintentos" as ELM_02
+participant "Lógica de backoff exponencial" as ELM_03
+participant "Monitor de estado del proveedor" as ELM_04
+ELM_03 -> ELM_01 : Recibir aviso del docente y almacenar en cola.
+ELM_04 -> ELM_02 : Consultar monitor de estado del proveedor.
+ELM_02 -> ELM_03 : Calcular tiempo de espera basado en fallos previos.
+ELM_03 -> ELM_01 : Procesar envío si proveedor está disponible.
+ELM_01 -> ELM_04 : Registrar fallo transitorio y pausar envío.
+@enduml

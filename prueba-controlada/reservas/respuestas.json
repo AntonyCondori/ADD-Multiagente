@@ -1,0 +1,18 @@
+[
+  {
+    "firma": "db59ad21fe70ac711c720f6d4ccf8201f85420a39c373fa9829c12650ee45e75",
+    "rol": "arquitecto",
+    "respuesta": "{\n  \"componentes\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibir solicitud de reserva y verificar disponibilidad.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Aplicar bloqueador exclusivo antes de modificar estado.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Generar versión única para el registro de la reserva.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Validar que la versión no esté en conflicto con otras.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Confirmar reserva si no hay conflictos detectados.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Liberar bloqueador exclusivo al finalizar transacción.\",\n      \"origen\": \"ELM-02\"\n    }\n  ],\n  \"secuencia\": [\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Recibir solicitud de reserva y verificar disponibilidad.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Aplicar bloqueador exclusivo antes de modificar estado.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Ejecutar lógica de reserva dentro de la transacción.\",\n      \"origen\": \"ELM-01\"\n    },\n    {\n      \"destino\": \"ELM-03\",\n      \"mensaje\": \"Generar versión única para el registro de la reserva.\",\n      \"origen\": \"ELM-02\"\n    },\n    {\n      \"destino\": \"ELM-04\",\n      \"mensaje\": \"Validar que la versión no esté en conflicto con otras.\",\n      \"origen\": \"ELM-03\"\n    },\n    {\n      \"destino\": \"ELM-02\",\n      \"mensaje\": \"Confirmar reserva si no hay conflictos detectados.\",\n      \"origen\": \"ELM-04\"\n    },\n    {\n      \"destino\": \"ELM-01\",\n      \"mensaje\": \"Liberar bloqueador exclusivo al finalizar transacción.\",\n      \"origen\": \"ELM-02\"\n    }\n  ]\n}",
+    "fin": "stop",
+    "uso": {
+      "completion_tokens": 658,
+      "prompt_tokens": 1628,
+      "total_tokens": 2286,
+      "prompt_tokens_details": {
+        "cached_tokens": 85
+      }
+    },
+    "modelo_reportado": "qwen3.5-4b-q4_K_M",
+    "segundos_http": 158.218
+  }
+]

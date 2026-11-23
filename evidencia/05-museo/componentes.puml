@@ -1,0 +1,14 @@
+@startuml
+component "CacheLocal" as ELM_01
+component "ValidadorIntegridad" as ELM_02
+component "ELM-03" as ELM_03
+component "ELM-04" as ELM_04
+ELM_03 -> ELM_01 : Solicitar fichas para sala sin red
+ELM_02 -> ELM_01 : Validar integridad contra servidor
+ELM_03 -> ELM_01 : Servir fichas desde caché local
+ELM_01 -> ELM_02 : Recibir actualización diaria de colección
+ELM_04 -> ELM_03 : Iniciar modo offline agresivo
+ELM_01 -> ELM_04 : Sincronizar caché con servidor
+ELM_01 -> ELM_03 : se descompone en
+ELM_01 -> ELM_04 : se descompone en
+@enduml

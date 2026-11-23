@@ -1,0 +1,1 @@
+Un taller agenda reparaciones y permite al cliente consultar su estado por número de orden. Ante una interrupción del servidor principal durante la jornada, el servicio de consulta debe volver a estar disponible en cinco minutos. Las modificaciones a una orden deben conservar su autor y hora.

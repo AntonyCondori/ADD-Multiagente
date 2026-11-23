@@ -1,0 +1,12 @@
+@startuml
+component "Cola de mensajes" as ELM_01
+component "Motor de reintentos" as ELM_02
+component "Lógica de backoff exponencial" as ELM_03
+component "Monitor de estado del proveedor" as ELM_04
+ELM_02 -> ELM_01 : Iniciar cola asíncrona para desacoplar publicación del envío.
+ELM_01 -> ELM_02 : Validar estado del proveedor antes de procesar reintentos.
+ELM_02 -> ELM_03 : Activar lógica de backoff tras fallo transitorio.
+ELM_02 -> ELM_04 : Actualizar monitor de estado tras fallo detectado.
+ELM_01 -> ELM_03 : se descompone en
+ELM_01 -> ELM_04 : se descompone en
+@enduml

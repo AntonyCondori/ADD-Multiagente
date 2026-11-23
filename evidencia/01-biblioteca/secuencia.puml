@@ -1,0 +1,18 @@
+@startuml
+participant "Motor de búsqueda híbrido" as ELM_01
+participant "Sincronizador de índices" as ELM_02
+participant "ELM-03" as ELM_03
+participant "ELM-04" as ELM_04
+ELM_02 -> ELM_01 : Recibe consulta de búsqueda por título del catálogo.
+ELM_02 -> ELM_01 : Ejecuta consulta SQL compleja para filtrar títulos exactos.
+ELM_02 -> ELM_01 : Consulta índice inverso de Elasticsearch para acelerar resultados.
+ELM_04 -> ELM_03 : Analiza similitud temática de los resultados encontrados.
+ELM_03 -> ELM_04 : Calcula rutas de descubrimiento usando algoritmo PageRank.
+ELM_04 -> ELM_01 : Combina resultados exactos con sugerencias temáticas.
+ELM_02 -> ELM_01 : Valida catálogo contra base de datos principal.
+ELM_02 -> ELM_01 : Envía resultados finales al usuario.
+ELM_04 -> ELM_03 : Actualiza grafo de co-ocurrencia con nuevos datos.
+ELM_03 -> ELM_04 : Recalcula rutas de descubrimiento para consistencia.
+ELM_02 -> ELM_01 : Utiliza caché para reutilizar resultados con antigüedad 60s.
+ELM_02 -> ELM_01 : Optimiza latencia inicial mediante índices híbridos.
+@enduml

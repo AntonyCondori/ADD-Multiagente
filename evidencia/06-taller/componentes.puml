@@ -1,0 +1,12 @@
+@startuml
+component "Servidor Secundario" as ELM_01
+component "Motor de Sincronización" as ELM_02
+component "ELM-03: Controlador de Estado" as ELM_03
+component "ELM-04: Replicador de Logs" as ELM_04
+ELM_02 -> ELM_01 : Iniciar clúster de alta disponibilidad para tolerancia a fallos.
+ELM_01 -> ELM_02 : Sincronizar estado del servidor principal ante interrupción.
+ELM_04 -> ELM_03 : Validar autoría y hora de la modificación de orden.
+ELM_01 -> ELM_04 : Replicar logs de auditoría en tiempo real.
+ELM_01 -> ELM_03 : se descompone en
+ELM_01 -> ELM_04 : se descompone en
+@enduml

@@ -1,0 +1,40 @@
+{
+  "tipo": "inyeccion_controlada",
+  "caso": "02-reservas",
+  "modelo": "qwen3.5-4b-q4_K_M",
+  "semilla": 7,
+  "original": "ELM-02",
+  "inyectado": "ELM-999999",
+  "intentos": [
+    {
+      "intento": 0,
+      "aceptado": false,
+      "error": "respuesta.secuencia[0].origen: texto vacío o referencia desconocida 'ELM-999999'",
+      "respuesta": "{\"componentes\": [{\"destino\": \"ELM-01\", \"mensaje\": \"Iniciar bloqueo exclusivo para garantizar integridad de datos.\", \"origen\": \"ELM-02\"}, {\"destino\": \"ELM-02\", \"mensaje\": \"Ejecutar transacción atómica bajo control del bloqueador.\", \"origen\": \"ELM-01\"}, {\"destino\": \"ELM-03\", \"mensaje\": \"Asignar versión de registro para optimismo concurrente.\", \"origen\": \"ELM-01\"}, {\"destino\": \"ELM-04\", \"mensaje\": \"Detectar conflicto entre versiones y revertir transacción.\", \"origen\": \"ELM-03\"}], \"secuencia\": [{\"destino\": \"ELM-01\", \"mensaje\": \"Recibir solicitud de reserva y verificar disponibilidad.\", \"origen\": \"ELM-999999\"}, {\"destino\": \"ELM-01\", \"mensaje\": \"Aplicar bloqueador exclusivo antes de modificar estado.\", \"origen\": \"ELM-02\"}, {\"destino\": \"ELM-02\", \"mensaje\": \"Ejecutar lógica de reserva dentro de la transacción.\", \"origen\": \"ELM-01\"}, {\"destino\": \"ELM-03\", \"mensaje\": \"Generar versión única para el registro de la reserva.\", \"origen\": \"ELM-02\"}, {\"destino\": \"ELM-04\", \"mensaje\": \"Validar que la versión no esté en conflicto con otras.\", \"origen\": \"ELM-03\"}, {\"destino\": \"ELM-02\", \"mensaje\": \"Confirmar reserva si no hay conflictos detectados.\", \"origen\": \"ELM-04\"}, {\"destino\": \"ELM-01\", \"mensaje\": \"Liberar bloqueador exclusivo al finalizar transacción.\", \"origen\": \"ELM-02\"}]}"
+    },
+    {
+      "intento": 1,
+      "aceptado": true
+    }
+  ],
+  "estado": "reparado",
+  "correcciones": 1,
+  "metricas": {
+    "cobertura_drivers": [
+      1,
+      1
+    ],
+    "elementos_huerfanos": [
+      0,
+      4
+    ],
+    "completitud_escenarios": [
+      6,
+      6
+    ],
+    "validez_sintactica": [
+      2,
+      2
+    ]
+  }
+}

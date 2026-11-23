@@ -1,0 +1,122 @@
+{
+  "drivers": [
+    {
+      "priorizado": true,
+      "texto": "Carga instantánea de fichas en sala sin internet",
+      "tipo": "funcional",
+      "id": "DRV-01"
+    },
+    {
+      "priorizado": false,
+      "texto": "Actualización diaria de la colección",
+      "tipo": "calidad",
+      "id": "DRV-02"
+    }
+  ],
+  "escenarios": [
+    {
+      "artefacto": "Tableta",
+      "atributo": "Tiempo de carga",
+      "driver": "DRV-02",
+      "entorno": "Sala sin internet",
+      "estimulo": "Consulta de fichas",
+      "fuente": "Colección descargada",
+      "medida": "Tiempo de apertura",
+      "respuesta": "Menos de un segundo",
+      "id": "ESC-01"
+    }
+  ],
+  "decisiones": [
+    {
+      "alternativa": "Implementar caché local agresiva con validación de integridad en segundo plano.",
+      "consecuencias": "Mejora la experiencia inmediata pero consume más almacenamiento local y riesgo de datos obsoletos.",
+      "contexto": "El visitante necesita acceso rápido a fichas en salas sin conectividad, mientras el curador mantiene la colección actualizada diariamente.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Servir desde CacheLocal si disponible, validar contra ValidadorIntegridad en segundo plano usando la versión actualizada.",
+      "drivers_directos": [
+        "DRV-01"
+      ],
+      "id": "DEC-01"
+    },
+    {
+      "alternativa": "Servir fichas desde CacheLocal sin validación en segundo plano para garantizar latencia mínima absoluta.",
+      "consecuencias": "Eliminamos el riesgo de datos obsoletos pero aumentamos la probabilidad de mostrar información incorrecta si la colección local no se sincronizó.",
+      "contexto": "Prioridad absoluta a la experiencia del visitante en salas sin red, aceptando un riesgo controlado de datos desactualizados.",
+      "escenarios": [
+        "ESC-01"
+      ],
+      "motivada_por": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "tactica": "Implementar un 'Modo Offline Agresivo' que deshabilita la validación de integridad en tiempo real, confiando en la sincronización previa.",
+      "drivers_directos": [
+        "DRV-01",
+        "DRV-02"
+      ],
+      "id": "DEC-02"
+    }
+  ],
+  "elementos": [
+    {
+      "id": "ELM-01",
+      "nombre": "CacheLocal",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-02",
+      "nombre": "ValidadorIntegridad",
+      "implementa": [
+        "DEC-01"
+      ],
+      "padre": "SISTEMA"
+    },
+    {
+      "id": "ELM-03",
+      "nombre": "ELM-03",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    },
+    {
+      "id": "ELM-04",
+      "nombre": "ELM-04",
+      "implementa": [
+        "DEC-02"
+      ],
+      "padre": "ELM-01"
+    }
+  ],
+  "iteraciones": [
+    {
+      "numero": 1,
+      "objetivo": "SISTEMA",
+      "decision": "DEC-01",
+      "creados": [
+        "ELM-01",
+        "ELM-02"
+      ],
+      "reutilizados": []
+    },
+    {
+      "numero": 2,
+      "objetivo": "ELM-01",
+      "decision": "DEC-02",
+      "creados": [
+        "ELM-03",
+        "ELM-04"
+      ],
+      "reutilizados": []
+    }
+  ]
+}
